@@ -167,9 +167,9 @@ export default {
   },
 
   created() {
-    this.getList()
-    this.getselectData()
-    this.getClassList()
+    // this.getList()
+    // this.getselectData()
+    // this.getClassList()
   },
   mounted() {
     console.log(Mixin, '查看数据');

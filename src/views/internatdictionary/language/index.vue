@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { Mixin } from "../selectMixin.js"
+import { Mixin } from "../../equipment/selectMixin.js"
 import TagsModal from "./component/modal.vue";
 import { pageLang, deleteLang } from "@/api/internation";
 export default {
@@ -216,4 +216,4 @@ export default {
     }
   }
 }
-</style>
+</style>../../selectMixin.js

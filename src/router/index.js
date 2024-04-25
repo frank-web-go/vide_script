@@ -160,14 +160,14 @@ export const constantRoutes = [
     children: [
       {
         path: "/equipement/detail",
-        name: "equipement-", 
+        name: "equipement-detail", 
         meta: {
           hide: false,
           title: "设备详情",
           sort: 0,
         },
         component: () =>
-          import("@/views/video/Classification/classification.vue"),
+          import("@/views/equipment/detail.vue"),
       },
     ]
   },

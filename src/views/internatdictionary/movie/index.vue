@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { Mixin } from "../selectMixin.js"
+import { Mixin } from "../../equipment/selectMixin.js"
 import MovieModal from "./component/modal.vue";
 import { movieDel, moviePage } from "@/api/internation";
 export default {
@@ -113,4 +113,4 @@ export default {
         },
     },
 };
-</script>
+</script>../../selectMixin.js
