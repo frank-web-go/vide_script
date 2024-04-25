@@ -1,0 +1,425 @@
+.layout-page {
+  background: #f5f7f9;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  font-size: 14px;
+}
+.layout-page > .layout-div {
+  /*顶部区域*/
+  /*导航切换*/
+  /*左边部分*/
+  /*黑色主题风格 默认*/
+  /*白色主题风格*/
+  /*收起 默认*/
+  /*内容区*/
+}
+.layout-page > .layout-div .header {
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  transition: all 0.2s ease-in-out;
+  justify-content: space-between;
+  height: 64px;
+  line-height: 64px;
+  padding: 0;
+}
+.layout-page > .layout-div .header .ivu-breadcrumb > span:last-child {
+  font-weight: lighter;
+}
+.layout-page > .layout-div .header i {
+  cursor: pointer;
+  margin-right: 20px;
+}
+.layout-page > .layout-div .header .header_left {
+  min-width: 300px;
+  width: auto;
+  padding-left: 15px;
+}
+.layout-page > .layout-div .header .header_left > span {
+  display: inline-flex;
+  min-width: 45px;
+}
+.layout-page > .layout-div .header .header_right {
+  margin-right: 30px;
+}
+.layout-page > .layout-div .header .header_right i:last-child {
+  margin-right: 0px;
+}
+.layout-page > .layout-div .header .header_right > span {
+  display: inline-flex;
+  flex-grow: 1;
+}
+.layout-page > .layout-div .header .header_right > span:last-child {
+  flex-grow: 0.5;
+}
+.layout-page > .layout-div .header .header_right > span .ivu-badge {
+  display: inline-flex;
+  top: 5px;
+}
+.layout-page > .layout-div .header .header_right > span .ivu-badge sup {
+  transform: translateX(-19%);
+  top: -14px;
+}
+.layout-page > .layout-div .tabsNav {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  background: #fff;
+  margin: 1px 0px 3px 0px;
+  justify-content: space-between;
+  border-bottom: 1px solid #dee2e6;
+  height: 38px;
+}
+.layout-page > .layout-div .tabsNav > .left {
+  width: calc(100% - 80px);
+  overflow: hidden;
+}
+.layout-page > .layout-div .tabsNav > .left > div {
+  position: relative;
+  transition: transform 0.5s ease-in-out;
+}
+.layout-page > .layout-div .tabsNav > .left > div > div {
+  height: 32px;
+  background: #fff;
+  border-radius: 3px;
+  margin-left: 1px;
+  color: #808695;
+  padding: 5px 10px 4px 0px;
+  justify-content: space-around;
+  white-space: nowrap;
+  border-left: 1px solid #dee2e6;
+  border-top: 1px solid #dee2e6;
+  border-right: 1px solid #dee2e6;
+}
+.layout-page > .layout-div .tabsNav > .left > div > div span {
+  padding-left: 16px;
+}
+.layout-page > .layout-div .tabsNav > .left > div > div i {
+  margin-left: 5px;
+  cursor: pointer;
+}
+.layout-page > .layout-div .tabsNav > .left > div > div > .active {
+  color: #0fc1af;
+  font-weight: bold;
+}
+.layout-page > .layout-div .tabsNav > .left .ivu-select-dropdown {
+  top: 101px !important;
+}
+.layout-page > .layout-div .tabsNav > .right .xiala {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 2px;
+}
+.layout-page > .layout-div .ivu-layout-sider {
+  background: #191a23;
+  min-height: 100vh;
+  /*默认 打开*/
+}
+.layout-page > .layout-div .ivu-layout-sider .logo {
+  border-bottom: 1px solid #101117;
+  height: 70px;
+  line-height: 70px;
+  text-align: center;
+  overflow: hidden;
+  background: #191a23;
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+}
+.layout-page > .layout-div .ivu-layout-sider .logo img {
+  height: 80%;
+  vertical-align: middle;
+}
+.layout-page > .layout-div .ivu-layout-sider .headMaxWidth {
+  background-color: white;
+  border-right: none!important;
+  box-shadow: none!important;
+}
+.layout-page > .layout-div .ivu-layout-sider .ivu-menu-dark {
+  background: #191a23;
+}
+.layout-page > .layout-div .ivu-layout-sider .ivu-menu-submenu-title:hover {
+  background-color: rgba(15, 193, 175, 0.2);
+  color: #101117;
+}
+.layout-page > .layout-div .ivu-layout-sider .ivu-menu-dark.ivu-menu-vertical .ivu-menu-opened {
+  background: #101117;
+}
+.layout-page > .layout-div .ivu-layout-sider .ivu-menu-dark.ivu-menu-vertical .ivu-menu-opened .ivu-menu-submenu-title {
+  background: #191a23;
+}
+.layout-page > .layout-div .ivu-layout-sider .ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu) {
+  color: #fff;
+  background-color: #0fc1af;
+}
+.layout-page > .layout-div .ivu-layout-sider .ivu-menu-light.ivu-menu-vertical .ivu-menu-item:hover {
+  background-color: rgba(15, 193, 175, 0.2);
+  color: #101117;
+  margin-left: -40px;
+}
+.layout-page > .layout-div .ivu-layout-sider .ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu):after {
+  background-color: #0fc1af;
+}
+.layout-page > .layout-div .ivu-layout-sider .menu-item {
+  height: calc(100vh - 70px);
+  overflow-y: auto;
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+  /*单页面 s*/
+  /*单页面 e*/
+}
+.layout-page > .layout-div .ivu-layout-sider .menu-item::-webkit-scrollbar {
+  display: none;
+  /* Chrome Safari */
+}
+.layout-page > .layout-div .ivu-layout-sider .menu-item > .ivu-menu-item:hover {
+  background: none;
+  color: #fff;
+  margin-left: 0px !important;
+}
+.layout-page > .layout-div .ivu-layout-sider .menu-item > .liActive {
+  background-color: #2d8cf0;
+}
+.layout-page > .layout-div .ivu-layout-sider .menu-item > .liActive > div {
+  color: #fff;
+}
+.layout-page > .layout-div .ivu-layout-sider .menu-item > .liActive:hover {
+  background-color: #2d8cf0;
+  color: #fff;
+}
+.layout-page > .layout-div .ivu-layout-sider .menu-item .ivu-menu-item {
+  padding-left: 50px !important;
+}
+.layout-page > .layout-div .ivu-layout-sider .menu-item i {
+  transition: font-size 0.2s ease, transform 0.2s ease;
+  vertical-align: middle;
+  font-size: 16px;
+}
+.layout-page > .layout-div .ivu-layout-sider .menu-item .ivu-menu-submenu-title,
+.layout-page > .layout-div .ivu-layout-sider .menu-item .ivu-menu,
+.layout-page > .layout-div .ivu-layout-sider .menu-item .ivu-menu-submenu {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.layout-page > .layout-div .ivu-layout-sider .menu-item .ivu-menu-item span {
+  width: calc(100% - 50px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.layout-page > .layout-div .ivu-layout-sider .menu-item .titlespan {
+  display: inline-block;
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
+  transition: width 0.2s ease 0.2s;
+}
+.layout-page > .layout-div .themeLight {
+  background: #fff;
+  /*收起*/
+}
+.layout-page > .layout-div .themeLight ::v-deep(.ivu-menu.ivu-menu-light.ivu-menu-vertical.ivu-menu-item-active:not(.ivu-menu-submenu)) {
+  color: "#0FC1AF" !important;
+  background: "rgb(15,193,175)" !important;
+  z-index: 2;
+}
+.layout-page > .layout-div .themeLight .logo {
+  background: #fff;
+  border-bottom: 1px solid #f8f8f9;
+  border-right: 1px solid #f1f1f2;
+  box-shadow: 2px 7px 8px 0 rgba(29, 35, 41, 0.05);
+}
+.layout-page > .layout-div .themeLight .menu-item {
+  box-shadow: 2px 7px 8px 0 rgba(29, 35, 41, 0.05);
+  padding-bottom: 300px;
+  /*单页面 s*/
+  /*单页面 e*/
+}
+.layout-page > .layout-div .themeLight .menu-item > .ivu-menu-item:hover {
+  background: none;
+}
+.layout-page > .layout-div .themeLight .menu-item > .liActive {
+  background-color: #EBF5FA;
+}
+.layout-page > .layout-div .themeLight .menu-item > .liActive > div {
+  color: #fff;
+  background-color: #0fc1af;
+}
+.layout-page > .layout-div .themeLight .menu-item > .liActive:hover {
+  background-color: rgba(15, 193, 175, 0.2);
+  color: #101117;
+}
+.layout-page > .layout-div .themeLight .menu-item > .liActive:after {
+  content: '';
+  display: block;
+  width: 2px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #0fc1af;
+}
+.layout-page > .layout-div .themeLight .collapsed-menu {
+  align-content: flex-start;
+}
+.layout-page > .layout-div .themeLight .collapsed-menu > .menuSmall {
+  width: 100%;
+}
+.layout-page > .layout-div .themeLight .collapsed-menu .menuSmall > div:first-child {
+  background: #fff;
+}
+.layout-page > .layout-div .themeLight .collapsed-menu .menuSmall > div:first-child i {
+  color: #565F73;
+}
+.layout-page > .layout-div .themeLight .collapsed-menu .menuSmall > div:first-child .active {
+  position: relative;
+  background-color: #f0faff;
+}
+.layout-page > .layout-div .themeLight .collapsed-menu .menuSmall > div:first-child .active i {
+  color: #2D8CF0;
+}
+.layout-page > .layout-div .themeLight .collapsed-menu .menuSmall > div:first-child .active:after {
+  content: '';
+  display: block;
+  width: 2px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 1px;
+  background: #2d8cf0;
+}
+.layout-page > .layout-div .themeLight .collapsed-menu .menuSmall > div:last-child {
+  background: #fff;
+  left: 79px !important;
+  width: 250px;
+}
+.layout-page > .layout-div .themeLight .collapsed-menu .menuSmall > div:last-child .ivu-dropdown-item-selected {
+  background-color: #f0faff;
+  color: #2D8CF0;
+}
+.layout-page > .layout-div .themeLight .collapsed-menu .menuSmall > div:last-child .ivu-dropdown-item-selected:hover {
+  background-color: #f0faff !important;
+}
+.layout-page > .layout-div .themeLight .collapsed-menu .menuSmall > div:last-child ul li {
+  color: #515a6e;
+}
+.layout-page > .layout-div .themeLight .collapsed-menu .menuSmall > div:last-child .ivu-select-dropdown {
+  min-width: 160px;
+}
+.layout-page > .layout-div .themeLight .collapsed-menu .menuSmall > div:last-child .ivu-dropdown-item:hover {
+  background-color: #F3F3F3;
+  color: #2D8CF0;
+}
+.layout-page > .layout-div .collapsed-menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  align-content: flex-start;
+  overflow-y: visible!important;
+}
+.layout-page > .layout-div .collapsed-menu::-webkit-scrollbar {
+  display: none;
+  /* Chrome Safari */
+}
+.layout-page > .layout-div .collapsed-menu .menuSmall {
+  position: relative;
+  width: 100%;
+  /*下拉菜单弹出层*/
+}
+.layout-page > .layout-div .collapsed-menu .menuSmall > div:first-child span {
+  width: 100%;
+  height: 52px;
+  padding: 14px 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.layout-page > .layout-div .collapsed-menu .menuSmall > div:first-child span i {
+  color: #BABBBD;
+}
+.layout-page > .layout-div .collapsed-menu .menuSmall > div:first-child .active {
+  background-color: #2e93f8;
+}
+.layout-page > .layout-div .collapsed-menu .menuSmall > div:first-child .active i {
+  color: #fff;
+}
+.layout-page > .layout-div .collapsed-menu .menuSmall > div:last-child {
+  left: 79px !important;
+  top: 10px !important;
+  background-color: #191A23;
+}
+.layout-page > .layout-div .collapsed-menu .menuSmall > div:last-child ul {
+  min-width: 160px;
+}
+.layout-page > .layout-div .collapsed-menu .menuSmall > div:last-child ul li {
+  text-align: left;
+  color: #BABBBD;
+  width: 100%;
+}
+.layout-page > .layout-div .collapsed-menu .menuSmall > div:last-child .ivu-dropdown-item-selected {
+  background-color: #2D8CF0;
+  color: white;
+}
+.layout-page > .layout-div .collapsed-menu .menuSmall > div:last-child .ivu-dropdown-item-selected:hover {
+  background-color: #2D8CF0 !important;
+}
+.layout-page > .layout-div .collapsed-menu .menuSmall > div:last-child .ivu-dropdown-item:hover {
+  background-color: #191A23;
+  color: white;
+}
+.layout-page > .layout-div .collapsed-menu .menuSmall .ivu-select-dropdown {
+  min-width: 160px;
+}
+.layout-page > .layout-div .collapsed-menu .ivu-menu-opened i {
+  color: white !important;
+}
+.layout-page > .layout-div .main_content {
+  background-color: #f5f7f9;
+  overflow-y: auto;
+  justify-content: space-between;
+  border-radius: 10px;
+}
+/*主题风格设置*/
+.optionDrawer .ivu-drawer-header {
+  border-bottom: 0px;
+  padding: 14px 16px 0px 16px;
+}
+.optionDrawer .ivu-drawer-header .header {
+  width: 95%;
+  min-width: 95%;
+  font-size: 14px!important;
+}
+.optionDrawer .ivu-drawer-body .imgs {
+  width: 100%;
+  justify-content: center;
+}
+.optionDrawer .ivu-drawer-body .imgs > div {
+  cursor: pointer;
+  position: relative;
+}
+.optionDrawer .ivu-drawer-body .imgs > div:nth-child(2n) {
+  margin-left: 40px;
+}
+.optionDrawer .ivu-drawer-body .imgs .active:after {
+  position: absolute;
+  left: 50%;
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 6px;
+  background: green;
+}
+.optionDrawer .ivu-drawer-body .otherDiv {
+  width: 95%;
+  min-width: 95%;
+  font-size: 14px!important;
+}
+.optionDrawer .ivu-drawer-body .kaiguan {
+  justify-content: space-between;
+  width: 65%;
+  margin: 0 auto 15px auto;
+}

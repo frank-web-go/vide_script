@@ -1,0 +1,136 @@
+html,
+body,
+#app {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #0FC1AF;
+}
+body {
+  overflow: hidden;
+}
+body div.el-select-dropdown.el-popper {
+  z-index: 9999 !important;
+}
+.flexR {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  flex-shrink: 0;
+  /*如果元素的大小是根据其子元素的来决定，并没有设置width、height或flex-basis 容器重叠在一起的兼容问题*/
+}
+.flexC {
+  display: inline-flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.pointer {
+  cursor: pointer;
+}
+.pointer:hover {
+  color: #1890FF;
+}
+.navigation-link {
+  position: relative;
+  text-decoration: none;
+  color: #1890FF;
+}
+.navigation-link::after {
+  content: "";
+  height: 2px;
+  overflow: hidden;
+  display: block;
+  left: 0;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  background: #0fc1af;
+  transform: scaleX(0);
+  transition: all 0.5s;
+}
+.navigation-link:hover::after {
+  transform: scaleX(1);
+}
+.blueText {
+  color: #1890FF;
+  cursor: pointer;
+}
+textarea {
+  resize: none;
+}
+/*滚动条美化*/
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 6px;
+}
+*::-webkit-scrollbar-track {
+  background-color: #F1F1F1;
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  border-radius: 2em;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #d8d9da;
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  border-radius: 2em;
+}
+/*页面头部 公用*/
+.pageHead {
+  padding: 16px 32px 0 32px;
+  background: #fff;
+  border-bottom: 1px solid #e8eaec;
+}
+.pageHead p {
+  margin-bottom: 16px;
+}
+.pageHead > p:first-child {
+  color: #17233d;
+  font-weight: 500;
+  font-size: 20px;
+}
+.pageHead > p:last-child {
+  font-size: 14px;
+}
+.pageContent {
+  margin-top: 16px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+.pageContent .pageContent_head {
+  justify-content: space-between;
+  border-bottom: 1px solid #e8eaec;
+  padding: 14px 16px;
+}
+.pageContent .pageContent_head > div:first-child {
+  font-size: 16px;
+  color: #17233d;
+  font-weight: 500;
+}
+.pageContent .pageDiv {
+  padding: 16px;
+  justify-content: flex-end;
+}
+/*model垂直居中*/
+.vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vertical-center-modal .ivu-modal {
+  top: 0;
+}
+/*阴影效果*/
+.hui-box-shadow {
+  position: relative;
+}
+.hui-box-shadow:hover {
+  z-index: 1;
+  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+}

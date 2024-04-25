@@ -1,0 +1,44 @@
+.box-card {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.page {
+  margin: 10px 0px 10px 0;
+  float: right;
+}
+.clearfix {
+  display: flex;
+  flex-direction: column;
+}
+.clearfix > div {
+  margin-bottom: 10px;
+}
+.el-dropdown {
+  vertical-align: top;
+}
+.el-dropdown + .el-dropdown {
+  margin-left: 15px;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
+.btnRow {
+  display: block;
+}
+.unBtnRow {
+  display: none;
+}
+.my-tooltip {
+  max-width: 240px;
+}
+.status-container {
+  width: 60px;
+  margin: auto;
+  padding: 3px 0;
+}
+.table-operator {
+  margin-bottom: 10px;
+}
