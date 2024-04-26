@@ -7,19 +7,12 @@
                     <el-form-item label="设备名称">
                         <el-input size="small" v-model="table.params.name" clearable></el-input>
                     </el-form-item>
-                    <el-form-item label="平台账号">
-                        <el-input size="small" v-model="table.params.platform_account" clearable></el-input>
-                    </el-form-item>
-                    <el-form-item label="是否在线">
-                        <el-select size="small" v-model="table.params.online_type" clearable>
-                            <el-option  label="在线" value="1" ></el-option>
-                            <el-option  label="离线" value="2" ></el-option>
-                        </el-select>
-                    </el-form-item>
                     <el-form-item label="状态">
-                        <el-select size="small" v-model="table.params.enable_type" clearable>
-                            <el-option  label="启用" value="1" ></el-option>
-                            <el-option  label="禁用" value="2" ></el-option>
+                        <el-select size="small" v-model="table.params.status" clearable>
+                            <el-option label="审核中" :value="1"></el-option>
+                            <el-option label="进行中" :value="2"></el-option>
+                            <el-option label="暂停" :value="3"></el-option>
+                            <el-option label="完成" :value="4"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item>
@@ -30,7 +23,6 @@
                     </el-form-item>
                 </el-form>
                 <div>
-                    <el-button size="small" type="primary" @click="getList">查询</el-button>
                     <el-button size="small" type="primary" @click="add()">新增</el-button>
                     <el-button size="small" type="danger" @click="deletesing(ids)">批量删除</el-button>
                 </div>
@@ -53,36 +45,37 @@
 </template>
 
 <script>
-import { Mixin } from "./selectMixin.js"
 import DetailModal from "./component/detailModel.vue";
-import { getDevice, delDevice } from "@/api/equipment";
+import { getTask, DeleteManyTask } from "@/api/equipment";
 export default {
     components: {
         DetailModal,
     },
-    mixins: [Mixin],
+
     data() {
         return {
             columns: [
                 { type: 'selection', width: 60, align: 'center' },
                 { title: "设备名称", key: 'name', align: 'center' },
-                { title: "客户端IP", key: 'client_ip', align: 'center' },
-                { title: "平台账号", key: 'platform_account', align: 'center' },
-                { title: "任务绑定数量", key: 'task_num', align: 'center' },
-                { title: "是否在线", key: 'online', align: 'center', render: (h, params) => { return this.ispublic(h, params,"online") } },
-                { title: "状态", key: 'enable', align: 'center', render: (h, params) => { return this.ispublic(h, params,"enable") } },
-                { title: "描述", key: 'desc', align: 'center', Tooltip: true },
+                { title: "设备列表", key: 'device_names', align: 'center' },
+                { title: "消息内容", key: 'content', align: 'center' },
+                { title: "任务数量", key: 'task_num', align: 'center' },
+                { title: "完成数量", key: 'comp_num', align: 'center' },
+                // { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(params) } },
+                { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(h, params, "online") }},
                 { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
-                { title: "最后交互时间", key: 'latest_mutual_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.latest_mutual_time)) },
+              
+                { title: "启用", key: 'enable', align: 'center', render: (h, params) => { return this.ispublic(h, params, "online") } },
                 { title: "操作", key: "operate", align: "center", width: 200, slot: "action" },
             ],
             table: {
                 params: {
                     name: "",
-                    platform_account: "",
-                    online_type: "",
-                    enable_type: ""
-                }
+                    status: "",
+                    page: 1,
+                    limit: 10
+                },
+                data: []
             }
         };
     },
@@ -97,19 +90,22 @@ export default {
 
     },
     methods: {
-        ispublic(h, params,type) {
+        handSelectChange(row) {
+            this.ids = row.map(item => item.id)
+        },
+        ispublic(h, params, type) {
             console.log('params: ', params);
             let text = ""
             let color = ""
-            if (type==="enable") {
+            if (type === "enable") {
                 text = params.row.enable ? '启用' : '禁用'
                 color = params.row.enable === true ? 'green' : 'red';
-            } 
-            if (type==="online") {
+            }
+            if (type === "online") {
                 text = params.row.online ? '是' : '否'
                 color = params.row.online === true ? 'green' : 'red';
             }
-            
+
             return h('Tag', {
                 props: {
                     color: color,
@@ -117,11 +113,46 @@ export default {
                 }
             }, text);
         },
+        fmtstatus(h,params) {
+            let text = ""
+            let color = ""
+            switch (params.row.status) {
+                case 1:
+                text = '审核中'
+                color = 'yellow'
+                    break;
+                case 2:
+                text = '进行中'
+                color = 'orange'
+                    break;
+                case 3:
+                text = '暂停'
+                color = 'red'
+                    break;
+                case 4:
+                text = '完成'
+                color = 'green'
+                    break;
+
+                default:
+                text = '未知'
+                color = '#ccc'
+                    break;
+            }
+            return h('Tag', {
+                props: {
+                    color: color,
+                    size: "large"
+                }
+            },text);
+        },
         getList() {
-            let data = {...this.table.params}
-            data.online_type = Number(data.online_type)
-            data.enable_type = Number(data.enable_type)
-            getDevice(data).then(res => {
+            let data = {
+                ...this.table.params,
+                status: this.table.params.status === "" ? 0 : this.table.params.status
+            }
+
+            getTask(data).then(res => {
                 console.log(res);
                 this.table.data = res.data.list || []
                 this.table.total = res.data.total
@@ -145,7 +176,7 @@ export default {
                 title: "确认删除",
                 content: "<p>是否确认删除此设备信息</p>",
                 onOk: () => {
-                    delDevice({ ids }).then(res => {
+                    DeleteManyTask({ ids }).then(res => {
                         if (res.code == 0) {
                             this.$message.success("删除成功")
                             this.getList();
@@ -154,7 +185,22 @@ export default {
                 },
             });
         },
-
+        handSelectChange(row) {
+            this.ids = row.map(item => item.id)
+        },
+        addTags() {
+            this.$refs.addvideos.modal.show = true
+            this.$refs.addvideos.modal.title = "添加标签"
+            this.$refs.addvideos.getTagDetail({})
+        },
+        updateMV(row) {
+            this.$refs.addvideos.modal.show = true
+            this.$refs.addvideos.modal.title = "修改标签"
+            this.$refs.addvideos.getTagDetail(row)
+        },
+        settime(time) {
+            return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD')
+        },
         limitchange(limit) {
             this.table.params.page = 1;
             this.table.params.limit = limit;
@@ -165,11 +211,11 @@ export default {
             this.table.params.page = page;
             this.getList();
         },
-        resetDevice(){
-            this.table.params.name =""
-            this.table.params.platform_account =""
-            this.table.params.online_type =""
-            this.table.params.enable_type =""
+        resetDevice() {
+            this.table.params.name = ""
+            this.table.params.platform_account = ""
+            this.table.params.online_type = ""
+            this.table.params.enable_type = ""
             this.getList();
         }
     },

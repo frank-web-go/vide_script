@@ -4,35 +4,38 @@
             <!-- 功能区 -->
             <div class="seach-form">
                 <el-form :inline="true">
-                    <el-form-item label="设备名称">
-                        <el-input size="small" v-model="table.params.name" clearable></el-input>
+                    <el-form-item label="用户id">
+                        <el-input size="small" v-model="table.params.user_id" clearable></el-input>
                     </el-form-item>
-                    <el-form-item label="平台账号">
-                        <el-input size="small" v-model="table.params.platform_account" clearable></el-input>
-                    </el-form-item>
-                    <el-form-item label="是否在线">
-                        <el-select size="small" v-model="table.params.online_type" clearable>
-                            <el-option  label="在线" value="1" ></el-option>
-                            <el-option  label="离线" value="2" ></el-option>
+                    <el-form-item label="隐私性">
+                        <el-select size="small" v-model="table.params.privacy_type" clearable>
+                            <el-option label="开放" :value="1"></el-option>
+                            <el-option label="关闭" :value="0"></el-option>
+
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="状态">
-                        <el-select size="small" v-model="table.params.enable_type" clearable>
-                            <el-option  label="启用" value="1" ></el-option>
-                            <el-option  label="禁用" value="2" ></el-option>
+                    <el-form-item label="送达">
+                        <el-select size="small" v-model="table.params.deliver_type" clearable>
+                            <el-option label="是" :value="1"></el-option>
+                            <el-option label="否" :value="0"></el-option>
+
                         </el-select>
                     </el-form-item>
+                    <el-form-item label="时间">
+                        <DatePicker @on-change="handchangetime" v-model="datetime" type="datetimerange"
+                            placeholder="请输选择时间段" style="width: 300px" />
+                    </el-form-item>
+
                     <el-form-item>
                         <el-button size="small" type="primary" @click="getList">查询</el-button>
                     </el-form-item>
-                    <el-form-item>
+                    <!-- <el-form-item>
                         <el-button size="small" type="primary" @click="resetDevice">重置</el-button>
-                    </el-form-item>
+                    </el-form-item> -->
                 </el-form>
                 <div>
-                    <el-button size="small" type="primary" @click="getList">查询</el-button>
-                    <el-button size="small" type="primary" @click="add()">新增</el-button>
-                    <el-button size="small" type="danger" @click="deletesing(ids)">批量删除</el-button>
+                    <!-- <el-button size="small" type="primary" @click="add()">新增</el-button> -->
+                    <!-- <el-button size="small" type="danger" @click="deletesing(ids)">批量删除</el-button> -->
                 </div>
             </div>
             <Table border @on-selection-change="handSelectChange" :columns="columns" :data="table.data"
@@ -40,7 +43,7 @@
                 <template #action="{ row }">
 
                     <Button style="margin-left: 10px;" type="info" @click="update(row)">编辑</Button>
-                    <Button style="margin-left: 10px;" type="error" @click="deletesing(row.id)">删除</Button>
+                    <!-- <Button style="margin-left: 10px;" type="error" @click="deletesing(row.id)">删除</Button> -->
                 </template>
             </Table>
             <Page v-show="table.data.length" show-sizer show-total style="margin-top:10px;float:right;"
@@ -53,36 +56,35 @@
 </template>
 
 <script>
-import { Mixin } from "./selectMixin.js"
 import DetailModal from "./component/detailModel.vue";
-import { getDevice, delDevice } from "@/api/equipment";
+import { PageKwai, DeleteKwai } from "@/api/equipment";
 export default {
     components: {
         DetailModal,
     },
-    mixins: [Mixin],
+
     data() {
         return {
+            datetime: [],
             columns: [
                 { type: 'selection', width: 60, align: 'center' },
-                { title: "设备名称", key: 'name', align: 'center' },
-                { title: "客户端IP", key: 'client_ip', align: 'center' },
-                { title: "平台账号", key: 'platform_account', align: 'center' },
-                { title: "任务绑定数量", key: 'task_num', align: 'center' },
-                { title: "是否在线", key: 'online', align: 'center', render: (h, params) => { return this.ispublic(h, params,"online") } },
-                { title: "状态", key: 'enable', align: 'center', render: (h, params) => { return this.ispublic(h, params,"enable") } },
-                { title: "描述", key: 'desc', align: 'center', Tooltip: true },
-                { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
-                { title: "最后交互时间", key: 'latest_mutual_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.latest_mutual_time)) },
+                { title: "用户id", key: 'user_id', align: 'center' },
+                { title: "隐私性", key: 'privacy', align: 'center', render: (h, params) => { return this.ispublic(h, params, "online") } },
+                { title: "送达", key: 'privacy', align: 'center', render: (h, params) => { return this.issongda(h, params, "online") } },
+                { title: "送达时间", key: 'deliver_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.deliver_time)) },
                 { title: "操作", key: "operate", align: "center", width: 200, slot: "action" },
             ],
             table: {
                 params: {
-                    name: "",
-                    platform_account: "",
-                    online_type: "",
-                    enable_type: ""
-                }
+                    user_id: "",
+                    privacy_type: "",
+                    deliver_type: "",
+                    begin_time: "",
+                    end_time: "",
+                    page: 1,
+                    limit: 10
+                },
+                data: []
             }
         };
     },
@@ -97,19 +99,31 @@ export default {
 
     },
     methods: {
-        ispublic(h, params,type) {
+        handchangetime(time) {
+            this.table.params.begin_time = Math.floor(new Date(time[0]).getTime() / 1000)
+            this.table.params.end_time = Math.floor(new Date(time[1]).getTime() / 1000)
+        },
+        handSelectChange(row) {
+            this.ids = row.map(item => item.id)
+        },
+        ispublic(h, params, type) {
+            let text = ""
+            let color = ""
+            text = params.row.privacy ? '开放' : '关闭'
+            color = params.row.privacy === true ? 'green' : 'red';
+            return h('Tag', {
+                props: {
+                    color: color,
+                    size: "large"
+                }
+            }, text);
+        },
+        issongda(h, params) {
             console.log('params: ', params);
             let text = ""
             let color = ""
-            if (type==="enable") {
-                text = params.row.enable ? '启用' : '禁用'
-                color = params.row.enable === true ? 'green' : 'red';
-            } 
-            if (type==="online") {
-                text = params.row.online ? '是' : '否'
-                color = params.row.online === true ? 'green' : 'red';
-            }
-            
+            text = params.row.deliver ? '是' : '否'
+            color = params.row.deliver === true ? 'green' : 'red';
             return h('Tag', {
                 props: {
                     color: color,
@@ -118,10 +132,15 @@ export default {
             }, text);
         },
         getList() {
-            let data = {...this.table.params}
-            data.online_type = Number(data.online_type)
-            data.enable_type = Number(data.enable_type)
-            getDevice(data).then(res => {
+            let data = {
+                ...this.table.params,
+                privacy_type: this.table.params.privacy_type === "" ? 0 : this.table.params.privacy_type,
+                deliver_type: this.table.params.deliver_type === "" ? 0 : this.table.params.deliver_type,
+                begin_time: this.table.params.begin_time === "" ? 0 : this.table.params.begin_time,
+                end_time: this.table.params.end_time === "" ? 0 : this.table.params.end_time
+            }
+
+            PageKwai(data).then(res => {
                 console.log(res);
                 this.table.data = res.data.list || []
                 this.table.total = res.data.total
@@ -134,7 +153,7 @@ export default {
         },
         update(row) {
             this.$refs.detailModal.modal.title = "编辑设备信息"
-            let data = {...row}
+            let data = { ...row }
             this.$refs.detailModal.modal.params = data
             this.$refs.detailModal.modal.show = true
         },
@@ -145,7 +164,7 @@ export default {
                 title: "确认删除",
                 content: "<p>是否确认删除此设备信息</p>",
                 onOk: () => {
-                    delDevice({ ids }).then(res => {
+                    DeleteKwai({ ids }).then(res => {
                         if (res.code == 0) {
                             this.$message.success("删除成功")
                             this.getList();
@@ -154,7 +173,22 @@ export default {
                 },
             });
         },
-
+        handSelectChange(row) {
+            this.ids = row.map(item => item.id)
+        },
+        addTags() {
+            this.$refs.addvideos.modal.show = true
+            this.$refs.addvideos.modal.title = "添加标签"
+            this.$refs.addvideos.getTagDetail({})
+        },
+        updateMV(row) {
+            this.$refs.addvideos.modal.show = true
+            this.$refs.addvideos.modal.title = "修改标签"
+            this.$refs.addvideos.getTagDetail(row)
+        },
+        settime(time) {
+            return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD')
+        },
         limitchange(limit) {
             this.table.params.page = 1;
             this.table.params.limit = limit;
@@ -165,11 +199,11 @@ export default {
             this.table.params.page = page;
             this.getList();
         },
-        resetDevice(){
-            this.table.params.name =""
-            this.table.params.platform_account =""
-            this.table.params.online_type =""
-            this.table.params.enable_type =""
+        resetDevice() {
+            this.table.params.name = ""
+            this.table.params.platform_account = ""
+            this.table.params.online_type = ""
+            this.table.params.enable_type = ""
             this.getList();
         }
     },

@@ -15,3 +15,35 @@ export function delDevice(data) {
 export function getDevice(data) {
     return request({ url: "/device/page", data });
 }
+export function getAllDevice(data) {
+    return request({ url: "/device/all", data });
+}
+
+export function getTask(data) {
+    return request({ url: "/task/page", data });
+}
+export function AllTask(data) {
+    return request({ url: "/task/all", data });
+}
+export function DeleteManyTask(data) {
+    return request({ url: "/task/deletemany", data });
+}
+export function UpdateOneTask(data) {
+    return request({ url: "/task/updateone", data });
+}
+export function AddOneTask(data) {
+    return request({ url: "/task/addone", data });
+}
+
+export function AddKwai(data) {
+    return request({ url: "/kwaiuser/addone", data });
+}
+export function UpdateeKwai(data) {
+    return request({ url: "/kwaiuser/updateone", data });
+}
+export function DeleteKwai(data) {
+    return request({ url: "/kwaiuser/deletemany", data });
+}
+export function PageKwai(data) {
+    return request({ url: "/kwaiuser/page", data });
+}
