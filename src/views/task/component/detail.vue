@@ -41,7 +41,7 @@ export default {
         return {
             columns: [
                 { type: 'selection', width: 60, align: 'center' },
-                { title: "任务ID", key: 'task_id', align: 'center' },
+                // { title: "任务ID", key: 'task_id', align: 'center' },
                 { title: "设备名称", key: 'device_name', align: 'center' },
                 { title: "消息内容", key: 'content', align: 'center' },
                 { title: "任务数量", key: 'task_num', align: 'center' },

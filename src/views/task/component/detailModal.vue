@@ -33,7 +33,7 @@
                         </FormItem>
                         </Col>
 
-                        <Col span="18">
+                        <!-- <Col span="18">
                        
                         <FormItem label="状态" prop="">
                             <Select placeholder="请选择状态"  v-model="modal.params.status" clearable>
@@ -45,7 +45,7 @@
 
                             </Select>
                         </FormItem>
-                        </Col>
+                        </Col> -->
 
                     </Row>
                 </Form>
@@ -68,7 +68,7 @@ export default {
                 ref: "equipment",
                 params: {
                     name: "",
-                    status: "",
+                    // status: "",
                     device_names: [],
                     content: "",
                     task_num: null,
@@ -104,7 +104,7 @@ export default {
                 if (valid) {
                     let data = {
                         ...this.modal.params,
-                        status: this.modal.params.status === "" ? 0 : this.modal.params.status,
+                        // status: this.modal.params.status === "" ? 0 : this.modal.params.status,
                         task_num: Number(this.modal.params.task_num)
                     }
                     if (this.modal.params.id) {

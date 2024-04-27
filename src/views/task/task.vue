@@ -32,9 +32,10 @@
                 <template #action="{ row }">
          
                     <!-- <Button style="margin-left: 10px;" type="info" @click="update(row)">编辑</Button> -->
-                    <Button @click="actionStatus(row.id,2)" style="margin-left: 10px;" type="info" v-if="row.status == 1" >审核</Button>
+                    <Button @click="actionStatus(row.id,2)" style="margin-left: 10px;" type="warning" v-if="row.status == 1" >审核</Button>
                     <Button @click="actionStatus(row.id,3)" style="margin-left: 10px;" type="error" v-if="row.status == 2" >暂停</Button>
                     <Button @click="actionStatus(row.id,2)" style="margin-left: 10px;" type="success" v-if="row.status == 3" >开启</Button>
+                    <Button style="margin-left: 10px;" type="info" v-if="row.status == 4" >完成</Button>
                     <Button style="margin-left: 10px;" type="info" @click="detail(row.id)">详情</Button>
                     <Button style="margin-left: 10px;" type="error" @click="deletesing(row.id)">删除</Button>
                 </template>
