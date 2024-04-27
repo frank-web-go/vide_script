@@ -66,12 +66,12 @@ export default {
                 { type: 'selection', width: 60, align: 'center' },
                 { title: "设备名称", key: 'name', align: 'center' },
                 { title: "客户端IP", key: 'client_ip', align: 'center' },
-                { title: "博主列表", key: 'blogger_ids', align: 'center', render: (h, params) =>  params.blogger_ids.join(",")},
-                { title: "今日余量", key: 'today_rem_num', align: 'center' },
-                { title: "发送总数量", key: 'send_total_num', align: 'center' },
+                { title: "博主列表", key: 'blogger_ids', align: 'center',render:(h, params) => { return this.handleBlogger(h, params) }},
+                // { title: "今日余量", key: 'today_rem_num', align: 'center' },
+                // { title: "发送总数量", key: 'send_total_num', align: 'center' },
                 { title: "是否在线", key: 'send_total_num', align: 'center', render: (h, params) => { return this.ispublic(h, params,"online") } },
                 { title: "状态", key: 'enable', align: 'center', render: (h, params) => { return this.ispublic(h, params,"enable") } },
-                { title: "说明", key: 'desc', align: 'center', Tooltip: true },
+                // { title: "说明", key: 'desc', align: 'center', Tooltip: true },
                 { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
                 { title: "最后交互时间", key: 'latest_mutual_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.latest_mutual_time)) },
                 { title: "操作", key: "operate", align: "center", width: 200, slot: "action" },
@@ -117,6 +117,9 @@ export default {
                 }
             }, text);
         },
+        handleBlogger(h,params){
+          return h("span",params.row.blogger_ids.join(","))
+        }, 
         getList() {
             let data = {...this.table.params}
             data.online_type = Number(data.online_type)

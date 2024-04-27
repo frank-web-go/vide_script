@@ -18,17 +18,21 @@
                             <Input v-model="modal.params.client_ip"></Input>
                         </FormItem>
                         </Col>
-                        <Col span="18">
+                        <!-- <Col span="18">
                         <FormItem label="今日余量" prop="today_rem_num">
-                            <Input v-model="modal.params.today_rem_num"></Input>
+                            <Input v-model="modal.params.today_rem_num" type="number"></Input>
                         </FormItem>
-                        </Col>
+                        </Col> -->
                         <Col span="18">
                         <FormItem label="博主列表">
                             <Input v-model="modal.params.blogger_ids"></Input>
                         </FormItem>
                         </Col>
-                     
+                        <!-- <Col span="18">
+                        <FormItem label="说明">
+                            <Input v-model="modal.params.desc"></Input>
+                        </FormItem>
+                        </Col> -->
                     </Row>
                 </Form>
             </div>
@@ -52,7 +56,8 @@ export default {
                     name: "",
                     blogger_ids: "",
                     client_ip: "",
-                    today_rem_num:""
+                    // today_rem_num:"",
+                    // desc:""
                 },
                 rules: {
                     name: [
@@ -60,9 +65,6 @@ export default {
                     ],
                     client_ip: [
                         { required: true, message: "请输入客户端IP", trigger: "blur" }
-                    ],
-                    today_rem_num: [
-                        { required: true, message: "请输入平台账号", trigger: "blur" }
                     ],
                     blogger_ids:[
                         { required: true, message: "请输入平台账号", trigger: "blur" }
