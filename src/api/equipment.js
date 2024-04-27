@@ -15,10 +15,6 @@ export function delDevice(data) {
 export function getDevice(data) {
     return request({ url: "/device/page", data });
 }
-<<<<<<< HEAD
-
-
-=======
 export function getAllDevice(data) {
     return request({ url: "/device/all", data });
 }
@@ -51,4 +47,10 @@ export function DeleteKwai(data) {
 export function PageKwai(data) {
     return request({ url: "/kwaiuser/page", data });
 }
->>>>>>> 4f519a3600dc9978eaf967d9b32ae29646e90413
+export function taskDetail(data) {
+    return request({ url: "/taskdetail/page", data });
+}
+
+export function updateStatus(data) {
+    return request({ url: "/task/changestatus", data });
+}

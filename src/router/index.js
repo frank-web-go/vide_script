@@ -83,7 +83,7 @@ export const constantRoutes = [
       },
     ],
   },
-  
+
   {
     path: "/equipement",
     name: "equipement",
@@ -97,16 +97,15 @@ export const constantRoutes = [
     children: [
       {
         path: "/equipement/detail",
-        name: "equipement-detail", 
+        name: "equipement-detail",
         meta: {
           hide: false,
           title: "设备详情",
           sort: 0,
         },
-        component: () =>
-          import("@/views/equipment/detail.vue"),
+        component: () => import("@/views/equipment/detail.vue"),
       },
-    ]
+    ],
   },
   {
     path: "/task",
@@ -121,27 +120,35 @@ export const constantRoutes = [
     children: [
       {
         path: "/task/taskmanagement",
-        name: "taskmanagement", 
+        name: "taskmanagement",
         meta: {
           hide: false,
           title: "任务管理",
           sort: 0,
         },
-        component: () =>
-          import("@/views/task/task.vue"),
+        component: () => import("@/views/task/task.vue"),
+      },
+      {
+        path: "/task/detail",
+        name: "taskdetail",
+        meta: {
+          hide: false,
+          title: "任务详情",
+          sort: 0,
+        },
+        component: () => import("@/views/task/component/detail"),
       },
       {
         path: "/task/successuser",
-        name: "successuser", 
+        name: "successuser",
         meta: {
           hide: false,
           title: "快手用户",
           sort: 0,
         },
-        component: () =>
-          import("@/views/successuser/successuser.vue"),
+        component: () => import("@/views/successuser/successuser.vue"),
       },
-    ]
+    ],
   },
   {
     path: "/dictionary",
@@ -156,7 +163,7 @@ export const constantRoutes = [
     children: [
       {
         path: "/dictionary/classification",
-        name: "classification", 
+        name: "classification",
         meta: {
           hide: false,
           title: "分类管理",
@@ -227,7 +234,9 @@ export const constantRoutes = [
           sort: 0,
         },
         component: () =>
-          import("@/views/internatdictionary/Classification/classification.vue"),
+          import(
+            "@/views/internatdictionary/Classification/classification.vue"
+          ),
       },
       {
         path: "/internatdictionary/tags",
@@ -247,7 +256,8 @@ export const constantRoutes = [
           title: "语言国际化管理",
           sort: 0,
         },
-        component: () => import("@/views/internatdictionary/language/index.vue"),
+        component: () =>
+          import("@/views/internatdictionary/language/index.vue"),
       },
       {
         path: "/internatdictionary/area",

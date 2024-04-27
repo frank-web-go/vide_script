@@ -19,22 +19,6 @@
                         </FormItem>
                         </Col>
                         <Col span="18">
-<<<<<<< HEAD
-                        <FormItem label="描述">
-                            <Input v-model="modal.params.desc"></Input>
-                        </FormItem>
-                        </Col>
-                        <Col span="18">
-                        <FormItem label="今日余量">
-                            <Input v-model.number="modal.params.today_rem_num" type="number" min="0"></Input>
-                        </FormItem>
-                        </Col>
-                        <Col span="18">
-                        <FormItem label="发送总数量">
-                            <Input v-model.number="modal.params.send_total_num" type="number" min="0"></Input>
-                        </FormItem>
-                        </Col>
-=======
                         <FormItem label="今日余量" prop="today_rem_num">
                             <Input v-model="modal.params.today_rem_num"></Input>
                         </FormItem>
@@ -45,7 +29,6 @@
                         </FormItem>
                         </Col>
                      
->>>>>>> 4f519a3600dc9978eaf967d9b32ae29646e90413
                     </Row>
                 </Form>
             </div>
@@ -69,12 +52,7 @@ export default {
                     name: "",
                     blogger_ids: "",
                     client_ip: "",
-<<<<<<< HEAD
-                    today_rem_num: 0,
-                    send_total_num:0
-=======
                     today_rem_num:""
->>>>>>> 4f519a3600dc9978eaf967d9b32ae29646e90413
                 },
                 rules: {
                     name: [

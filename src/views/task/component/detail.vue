@@ -4,8 +4,9 @@
             <!-- 功能区 -->
             <div class="seach-form">
                 <el-form :inline="true">
+                 
                     <el-form-item label="设备名称">
-                        <el-input size="small" v-model="table.params.name" clearable></el-input>
+                        <el-input size="small" v-model="table.params.device_name" clearable></el-input>
                     </el-form-item>
                     <el-form-item label="状态">
                         <el-select size="small" v-model="table.params.status" clearable>
@@ -22,58 +23,38 @@
                         <el-button size="small" type="primary" @click="resetDevice">重置</el-button>
                     </el-form-item>
                 </el-form>
-                <div>
-                    <el-button size="small" type="primary" @click="add()">新增</el-button>
-                    <el-button size="small" type="danger" @click="deletesing(ids)">批量删除</el-button>
-                </div>
             </div>
-            <Table border @on-selection-change="handSelectChange" :columns="columns" :data="table.data"
+            <Table border :columns="columns" :data="table.data"
                 style="margin-top: 12px;" height="600">
-                <template #action="{ row }">
-         
-                    <!-- <Button style="margin-left: 10px;" type="info" @click="update(row)">编辑</Button> -->
-                    <Button @click="actionStatus(row.id,2)" style="margin-left: 10px;" type="info" v-if="row.status == 1" >审核</Button>
-                    <Button @click="actionStatus(row.id,3)" style="margin-left: 10px;" type="error" v-if="row.status == 2" >暂停</Button>
-                    <Button @click="actionStatus(row.id,2)" style="margin-left: 10px;" type="success" v-if="row.status == 3" >开启</Button>
-                    <Button style="margin-left: 10px;" type="info" @click="detail(row.id)">详情</Button>
-                    <Button style="margin-left: 10px;" type="error" @click="deletesing(row.id)">删除</Button>
-                </template>
             </Table>
             <Page v-show="table.data.length" show-sizer show-total style="margin-top:10px;float:right;"
                 :total="table.total" :current="table.params.page" :page-size-opts="table.pageSizes"
                 :page-size="table.params.limit" @on-page-size-change="limitchange" @on-change="pagechange"></Page>
-            <!-- 新增模板 -->
-            <DetailModal @getList="getList" ref="detailModal"></DetailModal>    
         </div>
     </el-card>
 </template>
 
 <script>
-import { getTask, DeleteManyTask, updateStatus } from "@/api/equipment";
-import DetailModal from "./component/detailModal.vue";
+import { taskDetail } from "@/api/equipment";
 export default {
-    components: {
-        DetailModal,
-    },
     data() {
         return {
             columns: [
                 { type: 'selection', width: 60, align: 'center' },
-                { title: "设备名称", key: 'name', align: 'center' },
-                { title: "设备列表", key: 'device_names', align: 'center' },
+                { title: "任务ID", key: 'task_id', align: 'center' },
+                { title: "设备名称", key: 'device_name', align: 'center' },
                 { title: "消息内容", key: 'content', align: 'center' },
                 { title: "任务数量", key: 'task_num', align: 'center' },
                 { title: "完成数量", key: 'comp_num', align: 'center' },
                 // { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(params) } },
                 { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(h, params, "online") }},
                 { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
-              
-                { title: "启用", key: 'enable', align: 'center', render: (h, params) => { return this.ispublic(h, params, "online") } },
-                { title: "操作", key: "operate", align: "center", width: 250, slot: "action" },
             ],
             table: {
+                total: 0,
+                loading:false,
                 params: {
-                    name: "",
+                    device_name: "",
                     status: "",
                     page: 1,
                     limit: 10
@@ -82,7 +63,7 @@ export default {
             }
         };
     },
-
+    
     created() {
         this.getList()
     },
@@ -93,21 +74,6 @@ export default {
 
     },
     methods: {
-        actionStatus(id,status) {
-            let data = {
-                id,
-                status 
-            }
-            updateStatus(data).then(res=>{
-                if(res.code == 0) {
-                    this.$message.success("操作成功")
-                    this.getList()
-                }
-            })
-        },
-        handSelectChange(row) {
-            this.ids = row.map(item => item.id)
-        },
         ispublic(h, params, type) {
             console.log('params: ', params);
             let text = ""
@@ -164,58 +130,14 @@ export default {
         getList() {
             let data = {
                 ...this.table.params,
+                task_id:sessionStorage.getItem("task_id"),
                 status: this.table.params.status === "" ? 0 : this.table.params.status
             }
-
-            getTask(data).then(res => {
+            taskDetail(data).then(res => {
                 console.log(res);
                 this.table.data = res.data.list || []
                 this.table.total = res.data.total
             })
-        },
-        add() {
-            this.$refs.detailModal.modal.title = "新增设备信息"
-            this.$refs.detailModal.modal.params = {}
-            this.$refs.detailModal.modal.show = true
-        },
-        // update(row) {
-        //     this.$refs.detailModal.modal.title = "编辑设备信息"
-        //     let data = {...row}
-        //     this.$refs.detailModal.modal.params = data
-        //     this.$refs.detailModal.modal.show = true
-        // },
-        detail(id) {
-          sessionStorage.setItem("task_id",id)
-          this.$router.push("/task/detail")
-        },
-        deletesing(id) {
-            let ids = Array.isArray(id) ? id : [id]
-            if (ids.length == 0) return this.$message.warning("请选择要删除的设备信息")
-            this.$Modal.confirm({
-                title: "确认删除",
-                content: "<p>是否确认删除此设备信息</p>",
-                onOk: () => {
-                    DeleteManyTask({ ids }).then(res => {
-                        if (res.code == 0) {
-                            this.$message.success("删除成功")
-                            this.getList();
-                        }
-                    })
-                },
-            });
-        },
-        handSelectChange(row) {
-            this.ids = row.map(item => item.id)
-        },
-        addTags() {
-            this.$refs.addvideos.modal.show = true
-            this.$refs.addvideos.modal.title = "添加标签"
-            this.$refs.addvideos.getTagDetail({})
-        },
-        updateMV(row) {
-            this.$refs.addvideos.modal.show = true
-            this.$refs.addvideos.modal.title = "修改标签"
-            this.$refs.addvideos.getTagDetail(row)
         },
         settime(time) {
             return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD')
@@ -231,10 +153,8 @@ export default {
             this.getList();
         },
         resetDevice() {
-            this.table.params.name = ""
-            this.table.params.platform_account = ""
-            this.table.params.online_type = ""
-            this.table.params.enable_type = ""
+            this.table.params.device_name = ""
+            this.table.params.status = ""
             this.getList();
         }
     },
