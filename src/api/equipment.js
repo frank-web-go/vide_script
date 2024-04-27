@@ -15,3 +15,5 @@ export function delDevice(data) {
 export function getDevice(data) {
     return request({ url: "/device/page", data });
 }
+
+
