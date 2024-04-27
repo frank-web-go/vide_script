@@ -7,8 +7,11 @@
                     <el-form-item label="设备名称">
                         <el-input size="small" v-model="table.params.name" clearable></el-input>
                     </el-form-item>
-                    <el-form-item label="平台账号">
-                        <el-input size="small" v-model="table.params.platform_account" clearable></el-input>
+                    <el-form-item label="客户端IP">
+                        <el-input size="small" v-model="table.params.client_ip" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="博主">
+                        <Input v-model="table.params.blogger_id"></Input>
                     </el-form-item>
                     <el-form-item label="是否在线">
                         <el-select size="small" v-model="table.params.online_type" clearable>
@@ -79,9 +82,10 @@ export default {
             table: {
                 params: {
                     name: "",
-                    platform_account: "",
+                    blogger_id: "",
                     online_type: "",
-                    enable_type: ""
+                    enable_type: "",
+                    client_ip:""
                 }
             }
         };

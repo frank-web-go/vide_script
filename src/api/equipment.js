@@ -16,7 +16,7 @@ export function getDevice(data) {
     return request({ url: "/device/page", data });
 }
 export function getAllDevice(data) {
-    return request({ url: "/device/all", data });
+    return request({ url: "/device/allavailable", data });
 }
 
 export function getTask(data) {

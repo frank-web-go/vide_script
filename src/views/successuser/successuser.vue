@@ -40,11 +40,11 @@
             </div>
             <Table border @on-selection-change="handSelectChange" :columns="columns" :data="table.data"
                 style="margin-top: 12px;" height="600">
-                <template #action="{ row }">
+                <!-- <template #action="{ row }">
 
                     <Button style="margin-left: 10px;" type="info" @click="update(row)">编辑</Button>
-                    <!-- <Button style="margin-left: 10px;" type="error" @click="deletesing(row.id)">删除</Button> -->
-                </template>
+                    <Button style="margin-left: 10px;" type="error" @click="deletesing(row.id)">删除</Button>
+                </template> -->
             </Table>
             <Page v-show="table.data.length" show-sizer show-total style="margin-top:10px;float:right;"
                 :total="table.total" :current="table.params.page" :page-size-opts="table.pageSizes"
@@ -72,7 +72,7 @@ export default {
                 { title: "隐私性", key: 'privacy', align: 'center', render: (h, params) => { return this.ispublic(h, params, "online") } },
                 { title: "送达", key: 'privacy', align: 'center', render: (h, params) => { return this.issongda(h, params, "online") } },
                 { title: "送达时间", key: 'deliver_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.deliver_time)) },
-                { title: "操作", key: "operate", align: "center", width: 200, slot: "action" },
+                // { title: "操作", key: "operate", align: "center", width: 200, slot: "action" },
             ],
             table: {
                 params: {

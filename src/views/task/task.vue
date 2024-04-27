@@ -4,7 +4,7 @@
             <!-- 功能区 -->
             <div class="seach-form">
                 <el-form :inline="true">
-                    <el-form-item label="设备名称">
+                    <el-form-item label="任务名称">
                         <el-input size="small" v-model="table.params.name" clearable></el-input>
                     </el-form-item>
                     <el-form-item label="状态">
@@ -60,7 +60,7 @@ export default {
         return {
             columns: [
                 { type: 'selection', width: 60, align: 'center' },
-                { title: "设备名称", key: 'name', align: 'center' },
+                { title: "任务名称", key: 'name', align: 'center' },
                 { title: "设备列表", key: 'device_names', align: 'center' },
                 { title: "消息内容", key: 'content', align: 'center' },
                 { title: "任务数量", key: 'task_num', align: 'center' },
@@ -175,7 +175,7 @@ export default {
             })
         },
         add() {
-            this.$refs.detailModal.modal.title = "新增设备信息"
+            this.$refs.detailModal.modal.title = "新增任务信息"
             this.$refs.detailModal.modal.params = {}
             this.$refs.detailModal.modal.show = true
         },
