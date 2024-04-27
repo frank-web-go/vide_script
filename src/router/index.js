@@ -83,70 +83,7 @@ export const constantRoutes = [
       },
     ],
   },
-  // {
-  //   path: "/videomanagement",
-  //   name: "videomanagement",
-  //   component: Main,
-  //   meta: {
-  //     hide: false,
-  //     img: "shaihao.png",
-  //     title: "影片管理",
-  //     sort: 0,
-  //   },
-  //   children: [
-  //     {
-  //       path: "/videomanagement/video",
-  //       name: "video",
-  //       meta: {
-  //         hide: false,
-  //         title: "视频管理",
-  //         sort: 0,
-  //       },
-  //       component: () => import("@/views/video/VideoManagement/video.vue"),
-  //     },
-  //     {
-  //       path: "/videomanagement/advertising",
-  //       name: "advertising",
-  //       meta: {
-  //         hide: false,
-  //         title: "广告管理",
-  //         sort: 0,
-  //       },
-  //       component: () => import("@/views/video/Advertising/advertising.vue"),
-  //     },
-  //     // {
-  //     //   path: "/videomanagement/classification",
-  //     //   name: "classification",
-  //     //   meta: {
-  //     //     hide: false,
-  //     //     title: "分类管理",
-  //     //     sort: 0,
-  //     //   },
-  //     //   component: () =>
-  //     //     import("@/views/video/Classification/classification.vue"),
-  //     // },
-  //     {
-  //       path: "/videomanagement/priority",
-  //       name: "priority",
-  //       meta: {
-  //         hide: false,
-  //         title: "优先级管理",
-  //         sort: 0,
-  //       },
-  //       component: () => import("@/views/video/Priority/priority.vue"),
-  //     },
-  //     {
-  //       path: "/videomanagement/recycle",
-  //       name: "recycle",
-  //       meta: {
-  //         hide: false,
-  //         title: "视频回收站",
-  //         sort: 0,
-  //       },
-  //       component: () => import("@/views/video/VideoManagement/recycle.vue"),
-  //     },
-  //   ],
-  // },
+  
   {
     path: "/equipement",
     name: "equipement",
@@ -168,6 +105,41 @@ export const constantRoutes = [
         },
         component: () =>
           import("@/views/equipment/detail.vue"),
+      },
+    ]
+  },
+  {
+    path: "/task",
+    name: "task",
+    component: Main,
+    meta: {
+      hide: false,
+      img: "shaihao.png",
+      title: "任务管理",
+      sort: 0,
+    },
+    children: [
+      {
+        path: "/task/taskmanagement",
+        name: "taskmanagement", 
+        meta: {
+          hide: false,
+          title: "任务管理",
+          sort: 0,
+        },
+        component: () =>
+          import("@/views/task/task.vue"),
+      },
+      {
+        path: "/task/successuser",
+        name: "successuser", 
+        meta: {
+          hide: false,
+          title: "快手用户",
+          sort: 0,
+        },
+        component: () =>
+          import("@/views/successuser/successuser.vue"),
       },
     ]
   },

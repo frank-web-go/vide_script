@@ -9,43 +9,44 @@
                 <Form :ref="modal.ref" :model="modal.params" :rules="modal.rules" :label-width="110">
                     <Row>
                         <Col span="18">
-                        <FormItem label="设备名称" prop="name">
+                        <FormItem label="任务名称" prop="name">
                             <Input v-model="modal.params.name"></Input>
                         </FormItem>
                         </Col>
                         <Col span="18">
-                        <FormItem label="客户端IP" prop="client_ip">
-                            <Input v-model="modal.params.client_ip"></Input>
+                        <!-- <FormItem label="设备列表" prop="device_names"> -->
+                        <FormItem label="设备列表" prop="">
+                            <Select placeholder="请选择设备列表" multiple v-model="modal.params.device_names" clearable>
+                                <Option v-for="(item, index) in DeviceList" :value="item.name" :key="index"
+                                    :label="item.name">{{ item.name }}</Option>
+                            </Select>
                         </FormItem>
                         </Col>
                         <Col span="18">
-<<<<<<< HEAD
-                        <FormItem label="描述">
-                            <Input v-model="modal.params.desc"></Input>
+                        <FormItem label="消息内容" prop="">
+                            <Input v-model="modal.params.content"></Input>
                         </FormItem>
                         </Col>
                         <Col span="18">
-                        <FormItem label="今日余量">
-                            <Input v-model.number="modal.params.today_rem_num" type="number" min="0"></Input>
+                        <FormItem label="任务数量" prop="">
+                            <Input v-model="modal.params.task_num"></Input>
                         </FormItem>
                         </Col>
+
                         <Col span="18">
-                        <FormItem label="发送总数量">
-                            <Input v-model.number="modal.params.send_total_num" type="number" min="0"></Input>
+                       
+                        <FormItem label="状态" prop="">
+                            <Select placeholder="请选择状态"  v-model="modal.params.status" clearable>
+                                
+                                <Option  label="审核中" :value="1"></Option>
+                                <Option  label="进行中" :value="2"></Option>
+                                <Option  label="暂停" :value="3"></Option>
+                                <Option  label="完成" :value="4"></Option>
+
+                            </Select>
                         </FormItem>
                         </Col>
-=======
-                        <FormItem label="今日余量" prop="today_rem_num">
-                            <Input v-model="modal.params.today_rem_num"></Input>
-                        </FormItem>
-                        </Col>
-                        <Col span="18">
-                        <FormItem label="博主列表">
-                            <Input v-model="modal.params.blogger_ids"></Input>
-                        </FormItem>
-                        </Col>
-                     
->>>>>>> 4f519a3600dc9978eaf967d9b32ae29646e90413
+
                     </Row>
                 </Form>
             </div>
@@ -57,7 +58,7 @@
     </div>
 </template>
 <script>
-import { addDevice, updateDevice } from "@/api/equipment";
+import { AddOneTask, UpdateOneTask, getAllDevice } from "@/api/equipment";
 export default {
     data() {
         return {
@@ -67,35 +68,32 @@ export default {
                 ref: "equipment",
                 params: {
                     name: "",
-                    blogger_ids: "",
-                    client_ip: "",
-<<<<<<< HEAD
-                    today_rem_num: 0,
-                    send_total_num:0
-=======
-                    today_rem_num:""
->>>>>>> 4f519a3600dc9978eaf967d9b32ae29646e90413
+                    status: "",
+                    device_names: [],
+                    content: "",
+                    task_num: null,
                 },
                 rules: {
                     name: [
                         { required: true, message: "请输入设备名称", trigger: "blur" }
                     ],
-                    client_ip: [
-                        { required: true, message: "请输入客户端IP", trigger: "blur" }
+                    device_names: [
+                        { required: true, message: "请输入设备列表", trigger: "blur" }
                     ],
-                    today_rem_num: [
-                        { required: true, message: "请输入平台账号", trigger: "blur" }
+                    content: [
+                        { required: true, message: "请输入消息内容", trigger: "blur" }
                     ],
-                    blogger_ids:[
-                        { required: true, message: "请输入平台账号", trigger: "blur" }
+                    task_num: [
+                        { required: true, message: "请输入任务数量", trigger: "blur" }
                     ]
                 },
 
-            }
+            },
+            DeviceList: []
         };
     },
     mounted() {
-
+        this.getAllDevice()
     },
     computed: {
 
@@ -106,12 +104,11 @@ export default {
                 if (valid) {
                     let data = {
                         ...this.modal.params,
-                        blogger_ids: [this.modal.params.blogger_ids],
-                        today_rem_num:this.modal.params.today_rem_num==""?0:Number(this.modal.params.today_rem_num) 
+                        status: this.modal.params.status === "" ? 0 : this.modal.params.status,
+                        task_num: Number(this.modal.params.task_num)
                     }
-
                     if (this.modal.params.id) {
-                        updateDevice(data).then(res => {
+                        UpdateOneTask(data).then(res => {
                             if (res.code == 0) {
                                 this.$message.success("修改成功")
                                 this.modal.show = false
@@ -119,8 +116,7 @@ export default {
                             }
                         })
                     } else {
-                
-                        addDevice(data).then(res => {
+                        AddOneTask(data).then(res => {
                             console.log(res);
                             if (res.code == 0) {
                                 this.$message.success("新增成功")
@@ -138,7 +134,13 @@ export default {
         closeModal() {
             this.modal.show = false;
         },
-
+        getAllDevice() {
+            getAllDevice().then(res => {
+                if (res.code == 0) {
+                    this.DeviceList = res.data || []
+                }
+            })
+        }
 
     },
 };
