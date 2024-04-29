@@ -33,7 +33,7 @@ export const Mixin = {
             this.$refs.addvideos.getTagDetail(row)
         },
         settime(time) {
-            return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD')
+            return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD HH:mm:ss')
           },
     },
     mounted() {

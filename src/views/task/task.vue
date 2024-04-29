@@ -30,12 +30,15 @@
             <Table border @on-selection-change="handSelectChange" :columns="columns" :data="table.data"
                 style="margin-top: 12px;" height="600">
                 <template #action="{ row }">
-         
+
                     <!-- <Button style="margin-left: 10px;" type="info" @click="update(row)">编辑</Button> -->
-                    <Button @click="actionStatus(row.id,2)" style="margin-left: 10px;" type="warning" v-if="row.status == 1" >审核</Button>
-                    <Button @click="actionStatus(row.id,3)" style="margin-left: 10px;" type="error" v-if="row.status == 2" >暂停</Button>
-                    <Button @click="actionStatus(row.id,2)" style="margin-left: 10px;" type="success" v-if="row.status == 3" >开启</Button>
-                    <Button style="margin-left: 10px;" type="info" v-if="row.status == 4" >完成</Button>
+                    <Button @click="actionStatus(row.id, 2)" style="margin-left: 10px;" type="warning"
+                        v-if="row.status == 1">审核</Button>
+                    <Button @click="actionStatus(row.id, 3)" style="margin-left: 10px;" type="error"
+                        v-if="row.status == 2">暂停</Button>
+                    <Button @click="actionStatus(row.id, 2)" style="margin-left: 10px;" type="success"
+                        v-if="row.status == 3">开启</Button>
+                    <Button style="margin-left: 10px;visibility: hidden;" type="info" v-if="row.status == 4" >完成</Button>
                     <Button style="margin-left: 10px;" type="info" @click="detail(row.id)">详情</Button>
                     <Button style="margin-left: 10px;" type="error" @click="deletesing(row.id)">删除</Button>
                 </template>
@@ -44,7 +47,7 @@
                 :total="table.total" :current="table.params.page" :page-size-opts="table.pageSizes"
                 :page-size="table.params.limit" @on-page-size-change="limitchange" @on-change="pagechange"></Page>
             <!-- 新增模板 -->
-            <DetailModal @getList="getList" ref="detailModal"></DetailModal>    
+            <DetailModal @getList="getList" ref="detailModal"></DetailModal>
         </div>
     </el-card>
 </template>
@@ -66,9 +69,9 @@ export default {
                 { title: "任务数量", key: 'task_num', align: 'center' },
                 { title: "完成数量", key: 'comp_num', align: 'center' },
                 // { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(params) } },
-                { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(h, params, "online") }},
+                { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(h, params, "online") } },
                 { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
-              
+
                 { title: "启用", key: 'enable', align: 'center', render: (h, params) => { return this.ispublic(h, params, "online") } },
                 { title: "操作", key: "operate", align: "center", width: 250, slot: "action" },
             ],
@@ -94,13 +97,13 @@ export default {
 
     },
     methods: {
-        actionStatus(id,status) {
+        actionStatus(id, status) {
             let data = {
                 id,
-                status 
+                status
             }
-            updateStatus(data).then(res=>{
-                if(res.code == 0) {
+            updateStatus(data).then(res => {
+                if (res.code == 0) {
                     this.$message.success("操作成功")
                     this.getList()
                 }
@@ -129,30 +132,30 @@ export default {
                 }
             }, text);
         },
-        fmtstatus(h,params) {
+        fmtstatus(h, params) {
             let text = ""
             let color = ""
             switch (params.row.status) {
                 case 1:
-                text = '审核中'
-                color = 'yellow'
+                    text = '审核中'
+                    color = 'yellow'
                     break;
                 case 2:
-                text = '进行中'
-                color = 'orange'
+                    text = '进行中'
+                    color = 'orange'
                     break;
                 case 3:
-                text = '暂停'
-                color = 'red'
+                    text = '暂停'
+                    color = 'red'
                     break;
                 case 4:
-                text = '完成'
-                color = 'green'
+                    text = '完成'
+                    color = 'green'
                     break;
 
                 default:
-                text = '未知'
-                color = '#ccc'
+                    text = '未知'
+                    color = '#ccc'
                     break;
             }
             return h('Tag', {
@@ -160,7 +163,7 @@ export default {
                     color: color,
                     size: "large"
                 }
-            },text);
+            }, text);
         },
         getList() {
             let data = {
@@ -186,8 +189,8 @@ export default {
         //     this.$refs.detailModal.modal.show = true
         // },
         detail(id) {
-          sessionStorage.setItem("task_id",id)
-          this.$router.push("/task/detail")
+            sessionStorage.setItem("task_id", id)
+            this.$router.push("/task/detail")
         },
         deletesing(id) {
             let ids = Array.isArray(id) ? id : [id]
@@ -219,7 +222,7 @@ export default {
             this.$refs.addvideos.getTagDetail(row)
         },
         settime(time) {
-            return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD')
+            return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD HH:mm:ss')
         },
         limitchange(limit) {
             this.table.params.page = 1;

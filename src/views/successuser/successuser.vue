@@ -187,7 +187,7 @@ export default {
             this.$refs.addvideos.getTagDetail(row)
         },
         settime(time) {
-            return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD')
+            return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD HH:mm:ss')
         },
         limitchange(limit) {
             this.table.params.page = 1;
