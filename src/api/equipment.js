@@ -64,7 +64,7 @@ export function collectionPage(data) {
 }
 
 export function collectionStatusChange(data) {
-    return request({ url: "/taskcollection/changeStatus", data });
+    return request({ url: "/taskcollection/changestatus", data });
 }
 
 export function collectionDeleteMany(data) {

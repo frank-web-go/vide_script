@@ -75,7 +75,7 @@ export default {
                 { type: 'selection', width: 60, align: 'center' },
                 { title: "设备名称", key: 'name', align: 'center' },
                 { title: "客户端IP", key: 'client_ip', align: 'center' },
-                // { title: "博主列表", key: 'blogger_ids', align: 'center',render:(h, params) => { return this.handleBlogger(h, params) }},
+                { title: "博主列表", key: 'blogger_ids', align: 'center',tooltip: true},
                 // { title: "今日余量", key: 'today_rem_num', align: 'center' },
                 // { title: "发送总数量", key: 'send_total_num', align: 'center' },
                 { title: "是否在线", key: 'send_total_num', align: 'center', render: (h, params) => { return this.ispublic(h, params,"online") } },
@@ -134,7 +134,7 @@ export default {
             return params.row.device_type == 1 ? "发送广告": "收集粉丝"    
         },
         handleBlogger(h,params){
-          return h("span",params.row.blogger_ids.join(","))
+          return h("span",params.row.blogger_ids.join(", "))
         }, 
         getList() {
             let data = {...this.table.params}

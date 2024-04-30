@@ -29,11 +29,11 @@
                             <Input v-model="modal.params.today_rem_num" type="number"></Input>
                         </FormItem>
                         </Col> -->
-                        <!-- <Col span="18">
+                         <Col span="18">
                         <FormItem label="博主列表">
                             <Input v-model="modal.params.blogger_ids"></Input>
                         </FormItem>
-                        </Col> -->
+                        </Col>
                         <!-- <Col span="18">
                         <FormItem label="说明">
                             <Input v-model="modal.params.desc"></Input>
