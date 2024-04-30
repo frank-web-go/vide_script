@@ -4,31 +4,18 @@
             <!-- 功能区 -->
             <div class="seach-form">
                 <el-form :inline="true">
-                    <el-form-item label="设备名称">
+                    <el-form-item label="任务名称">
                         <el-input size="small" v-model="table.params.name" clearable></el-input>
                     </el-form-item>
-                    <el-form-item label="客户端IP">
-                        <el-input size="small" v-model="table.params.client_ip" clearable></el-input>
-                    </el-form-item>
-                    <el-form-item label="博主">
-                        <Input v-model="table.params.blogger_id"></Input>
-                    </el-form-item>
-                    <el-form-item label="是否在线">
-                        <el-select size="small" v-model="table.params.online_type" clearable>
-                            <el-option  label="在线" value="1" ></el-option>
-                            <el-option  label="离线" value="2" ></el-option>
-                        </el-select>
+                    <el-form-item label="设备名称">
+                        <el-input size="small" v-model="table.params.device_name" clearable></el-input>
                     </el-form-item>
                     <el-form-item label="状态">
-                        <el-select size="small" v-model="table.params.enable_type" clearable>
-                            <el-option  label="启用" value="1" ></el-option>
-                            <el-option  label="禁用" value="2" ></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="设备类型">
-                        <el-select size="small" v-model="table.params.device_type" clearable>
-                            <el-option  label="发送广告" value="1" ></el-option>
-                            <el-option  label="收集粉丝" value="2" ></el-option>
+                        <el-select size="small" v-model="table.params.status" clearable>
+                            <el-option label="审核中" :value="1"></el-option>
+                            <el-option label="进行中" :value="2"></el-option>
+                            <el-option label="暂停" :value="3"></el-option>
+                            <el-option label="完成" :value="4"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item>
@@ -47,7 +34,15 @@
                 style="margin-top: 12px;" height="600">
                 <template #action="{ row }">
 
-                    <Button style="margin-left: 10px;" type="info" @click="update(row)">编辑</Button>
+                    <!-- <Button style="margin-left: 10px;" type="info" @click="update(row)">编辑</Button> -->
+                    <Button @click="actionStatus(row.id, 2)" style="margin-left: 10px;" type="warning"
+                        v-if="row.status == 1">审核</Button>
+                    <Button @click="actionStatus(row.id, 3)" style="margin-left: 10px;" type="error"
+                        v-if="row.status == 2">暂停</Button>
+                    <Button @click="actionStatus(row.id, 2)" style="margin-left: 10px;" type="success"
+                        v-if="row.status == 3">开启</Button>
+                    <Button style="margin-left: 10px;visibility: hidden;" type="info" v-if="row.status == 4" >完成</Button>
+                    <Button style="margin-left: 10px;" type="info" @click="detail(row.id)">详情</Button>
                     <Button style="margin-left: 10px;" type="error" @click="deletesing(row.id)">删除</Button>
                 </template>
             </Table>
@@ -55,46 +50,40 @@
                 :total="table.total" :current="table.params.page" :page-size-opts="table.pageSizes"
                 :page-size="table.params.limit" @on-page-size-change="limitchange" @on-change="pagechange"></Page>
             <!-- 新增模板 -->
-            <DetailModal @getList="getList" ref="detailModal"></DetailModal>
+            <TaskModal @getList="getList" ref="taskModal"></TaskModal>
         </div>
     </el-card>
 </template>
 
 <script>
-import { Mixin } from "./selectMixin.js"
-import DetailModal from "./component/detailModel.vue";
-import { getDevice, delDevice } from "@/api/equipment";
+import { collectionPage, collectionDeleteMany, collectionStatusChange } from "@/api/equipment";
+import TaskModal from "./component/taskModel.vue";
 export default {
     components: {
-        DetailModal,
+        TaskModal,
     },
-    mixins: [Mixin],
     data() {
         return {
             columns: [
                 { type: 'selection', width: 60, align: 'center' },
-                { title: "设备名称", key: 'name', align: 'center' },
-                { title: "客户端IP", key: 'client_ip', align: 'center' },
-                // { title: "博主列表", key: 'blogger_ids', align: 'center',render:(h, params) => { return this.handleBlogger(h, params) }},
-                // { title: "今日余量", key: 'today_rem_num', align: 'center' },
-                // { title: "发送总数量", key: 'send_total_num', align: 'center' },
-                { title: "是否在线", key: 'send_total_num', align: 'center', render: (h, params) => { return this.ispublic(h, params,"online") } },
-                { title: "设备类型", key: 'device_type', align: 'center', render: (h, params) => { return this.handleDeviceType(h, params) } },
-                { title: "状态", key: 'enable', align: 'center', render: (h, params) => { return this.ispublic(h, params,"enable") } },
-                // { title: "说明", key: 'desc', align: 'center', Tooltip: true },
+                { title: "任务名称", key: 'name', align: 'center' },
+                { title: "设备列表", key: 'device_names', align: 'center' },
+                { title: "任务数量", key: 'task_num', align: 'center' },
+                { title: "完成数量", key: 'comp_num', align: 'center' },
+                { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(h, params, "online") } },
                 { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
-                { title: "最后交互时间", key: 'latest_mutual_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.latest_mutual_time)) },
-                { title: "操作", key: "operate", align: "center", width: 200, slot: "action" },
+                { title: "完成时间", key: 'finish_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.finish_time)) },
+                { title: "操作", key: "operate", align: "center", width: 250, slot: "action" },
             ],
             table: {
                 params: {
                     name: "",
-                    blogger_id: "",
-                    online_type: "",
-                    enable_type: "",
-                    client_ip:"",
-                    device_type:""
-                }
+                    status: "",
+                    device_name:"",
+                    page: 1,
+                    limit: 10
+                },
+                data: []
             }
         };
     },
@@ -109,19 +98,34 @@ export default {
 
     },
     methods: {
-        ispublic(h, params,type) {
+        actionStatus(id, status) {
+            let data = {
+                id,
+                status
+            }
+            collectionStatusChange(data).then(res => {
+                if (res.code == 0) {
+                    this.$message.success("操作成功")
+                    this.getList()
+                }
+            })
+        },
+        handSelectChange(row) {
+            this.ids = row.map(item => item.id)
+        },
+        ispublic(h, params, type) {
             console.log('params: ', params);
             let text = ""
             let color = ""
-            if (type==="enable") {
+            if (type === "enable") {
                 text = params.row.enable ? '启用' : '禁用'
                 color = params.row.enable === true ? 'green' : 'red';
-            } 
-            if (type==="online") {
+            }
+            if (type === "online") {
                 text = params.row.online ? '是' : '否'
                 color = params.row.online === true ? 'green' : 'red';
             }
-            
+
             return h('Tag', {
                 props: {
                     color: color,
@@ -129,34 +133,65 @@ export default {
                 }
             }, text);
         },
-        handleDeviceType(h,params) {
-            console.log('params: ', params);
-            return params.row.device_type == 1 ? "发送广告": "收集粉丝"    
+        fmtstatus(h, params) {
+            let text = ""
+            let color = ""
+            switch (params.row.status) {
+                case 1:
+                    text = '审核中'
+                    color = 'yellow'
+                    break;
+                case 2:
+                    text = '进行中'
+                    color = 'orange'
+                    break;
+                case 3:
+                    text = '暂停'
+                    color = 'red'
+                    break;
+                case 4:
+                    text = '完成'
+                    color = 'green'
+                    break;
+
+                default:
+                    text = '未知'
+                    color = '#ccc'
+                    break;
+            }
+            return h('Tag', {
+                props: {
+                    color: color,
+                    size: "large"
+                }
+            }, text);
         },
-        handleBlogger(h,params){
-          return h("span",params.row.blogger_ids.join(","))
-        }, 
         getList() {
-            let data = {...this.table.params}
-            data.online_type = Number(data.online_type)
-            data.enable_type = Number(data.enable_type)
-            data.device_type = Number(data.device_type)
-            getDevice(data).then(res => {
+            let data = {
+                ...this.table.params,
+                status: this.table.params.status === "" ? 0 : this.table.params.status
+            }
+
+            collectionPage(data).then(res => {
                 console.log(res);
                 this.table.data = res.data.list || []
                 this.table.total = res.data.total
             })
         },
         add() {
-            this.$refs.detailModal.modal.title = "新增设备信息"
-            this.$refs.detailModal.modal.params = {}
-            this.$refs.detailModal.modal.show = true
+            this.$refs.taskModal.modal.title = "新增任务信息"
+            this.$refs.taskModal.modal.params = {}
+            this.$refs.taskModal.modal.show = true
         },
-        update(row) {
-            this.$refs.detailModal.modal.title = "编辑设备信息"
-            let data = {...row}
-            this.$refs.detailModal.modal.params = data
-            this.$refs.detailModal.modal.show = true
+        // update(row) {
+        //     this.$refs.taskModal.modal.title = "编辑设备信息"
+        //     let data = {...row}
+        //     this.$refs.taskModal.modal.params = data
+        //     this.$refs.taskModal.modal.show = true
+        // },
+        detail(id) {
+            sessionStorage.setItem("task_id", id)
+            this.$router.push("/task/detail")
         },
         deletesing(id) {
             let ids = Array.isArray(id) ? id : [id]
@@ -165,7 +200,7 @@ export default {
                 title: "确认删除",
                 content: "<p>是否确认删除此设备信息</p>",
                 onOk: () => {
-                    delDevice({ ids }).then(res => {
+                    collectionDeleteMany({ ids }).then(res => {
                         if (res.code == 0) {
                             this.$message.success("删除成功")
                             this.getList();
@@ -174,7 +209,12 @@ export default {
                 },
             });
         },
-
+        handSelectChange(row) {
+            this.ids = row.map(item => item.id)
+        },
+        settime(time) {
+            return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD HH:mm:ss')
+        },
         limitchange(limit) {
             this.table.params.page = 1;
             this.table.params.limit = limit;
@@ -185,11 +225,10 @@ export default {
             this.table.params.page = page;
             this.getList();
         },
-        resetDevice(){
-            this.table.params.name =""
-            this.table.params.platform_account =""
-            this.table.params.online_type =""
-            this.table.params.enable_type =""
+        resetDevice() {
+            this.table.params.name = ""
+            this.table.params.status= ""
+            this.table.params.device_name = ""
             this.getList();
         }
     },

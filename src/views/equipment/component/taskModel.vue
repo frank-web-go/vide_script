@@ -22,17 +22,21 @@
                             </Select>
                         </FormItem>
                         </Col>
-                        <Col span="18">
+                        <!-- <Col span="18">
                         <FormItem label="消息内容" prop="">
                             <Input v-model="modal.params.content"></Input>
                         </FormItem>
-                        </Col>
+                        </Col> -->
                         <Col span="18">
                         <FormItem label="任务数量" prop="">
                             <Input v-model="modal.params.task_num"></Input>
                         </FormItem>
                         </Col>
-
+                        <!-- <Col span="18">
+                        <FormItem label="完成数量" prop="">
+                            <Input v-model="modal.params.comp_num"></Input>
+                        </FormItem>
+                        </Col> -->
                         <!-- <Col span="18">
                        
                         <FormItem label="状态" prop="">
@@ -58,7 +62,7 @@
     </div>
 </template>
 <script>
-import { AddOneTask, UpdateOneTask, getAllDevice } from "@/api/equipment";
+import { collectionAdd, getAllDevice } from "@/api/equipment";
 export default {
     data() {
         return {
@@ -107,24 +111,14 @@ export default {
                         // status: this.modal.params.status === "" ? 0 : this.modal.params.status,
                         task_num: Number(this.modal.params.task_num)
                     }
-                    if (this.modal.params.id) {
-                        UpdateOneTask(data).then(res => {
-                            if (res.code == 0) {
-                                this.$message.success("修改成功")
-                                this.modal.show = false
-                                this.$emit("getList")
-                            }
-                        })
-                    } else {
-                        AddOneTask(data).then(res => {
-                            console.log(res);
-                            if (res.code == 0) {
-                                this.$message.success("新增成功")
-                                this.modal.show = false
-                                this.$emit("getList")
-                            }
-                        })
-                    }
+                    collectionAdd(data).then(res => {
+                        console.log(res);
+                        if (res.code == 0) {
+                            this.$message.success("新增成功")
+                            this.modal.show = false
+                            this.$emit("getList")
+                        }
+                    })
 
                 } else {
                     return false;
@@ -135,7 +129,7 @@ export default {
             this.modal.show = false;
         },
         getAllDevice() {
-            getAllDevice({type:1}).then(res => {
+            getAllDevice({type:2}).then(res => {
                 if (res.code == 0) {
                     this.DeviceList = res.data || []
                 }

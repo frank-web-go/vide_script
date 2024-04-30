@@ -105,6 +105,16 @@ export const constantRoutes = [
         },
         component: () => import("@/views/equipment/detail.vue"),
       },
+      {
+        path: "/equipement/taskcollection",
+        name: "equipement-taskcollection",
+        meta: {
+          hide: false,
+          title: "任务管理",
+          sort: 0,
+        },
+        component: () => import("@/views/equipment/task.vue"),
+      },
     ],
   },
   {

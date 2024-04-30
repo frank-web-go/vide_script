@@ -54,3 +54,21 @@ export function taskDetail(data) {
 export function updateStatus(data) {
     return request({ url: "/task/changestatus", data });
 }
+
+export function collectionAdd(data) {
+    return request({ url: "/taskcollection/addone", data });
+}
+
+export function collectionPage(data) {
+    return request({ url: "/taskcollection/page", data });
+}
+
+export function collectionStatusChange(data) {
+    return request({ url: "/taskcollection/changeStatus", data });
+}
+
+export function collectionDeleteMany(data) {
+    return request({ url: "/taskcollection/deletemany", data });
+}
+
+

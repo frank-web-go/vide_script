@@ -18,16 +18,22 @@
                             <Input v-model="modal.params.client_ip"></Input>
                         </FormItem>
                         </Col>
+                        <FormItem label="设备类型" prop="">
+                            <Select placeholder="请选择设备列表" v-model="modal.params.device_type" clearable style="width: 280px">
+                                <Option value="1" label="发送广告"></Option>
+                                <Option value="2" label="收集粉丝"></Option>
+                            </Select>
+                        </FormItem>
                         <!-- <Col span="18">
                         <FormItem label="今日余量" prop="today_rem_num">
                             <Input v-model="modal.params.today_rem_num" type="number"></Input>
                         </FormItem>
                         </Col> -->
-                        <Col span="18">
+                        <!-- <Col span="18">
                         <FormItem label="博主列表">
                             <Input v-model="modal.params.blogger_ids"></Input>
                         </FormItem>
-                        </Col>
+                        </Col> -->
                         <!-- <Col span="18">
                         <FormItem label="说明">
                             <Input v-model="modal.params.desc"></Input>
@@ -56,6 +62,7 @@ export default {
                     name: "",
                     blogger_ids: "",
                     client_ip: "",
+                    device_type:""
                     // today_rem_num:"",
                     // desc:""
                 },
@@ -87,7 +94,8 @@ export default {
                     let data = {
                         ...this.modal.params,
                         blogger_ids: [this.modal.params.blogger_ids],
-                        today_rem_num:this.modal.params.today_rem_num==""?0:Number(this.modal.params.today_rem_num) 
+                        today_rem_num:this.modal.params.today_rem_num==""?0:Number(this.modal.params.today_rem_num), 
+                        device_type: Number(this.modal.params.device_type)
                     }
 
                     if (this.modal.params.id) {
