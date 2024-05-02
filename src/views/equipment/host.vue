@@ -75,7 +75,8 @@ export default {
                 { title: "是否在线", key: 'send_total_num', align: 'center', render: (h, params) => { return this.ispublic(h, params,"online") } },
                 { title: "设备列表", key: 'device_names', align: 'center', render: (h, params) => { return this.handleDeviceNames(h, params) } },
                 { title: "客户端IP", key: 'host_ip', align: 'center' },
-                { title: "状态", key: 'enable', align: 'center', render: (h, params) => { return this.ispublic(h, params,"enable") } },
+                { title: "是否启用", key: 'enable', align: 'center', render: (h, params) => { return this.ispublic(h, params,"enable") } },
+                { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(h, params, "online") } },
                 { title: "描述", key: 'desc', align: 'center', Tooltip: true },
                 { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
                 { title: "最后交互时间", key: 'latest_mutual_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.latest_mutual_time)) },
@@ -116,6 +117,39 @@ export default {
                 color = params.row.online === true ? 'green' : 'red';
             }
             
+            return h('Tag', {
+                props: {
+                    color: color,
+                    size: "large"
+                }
+            }, text);
+        },
+        fmtstatus(h, params) {
+            let text = ""
+            let color = ""
+            switch (params.row.status) {
+                case 1:
+                    text = '审核中'
+                    color = 'yellow'
+                    break;
+                case 2:
+                    text = '进行中'
+                    color = 'orange'
+                    break;
+                case 3:
+                    text = '暂停'
+                    color = 'red'
+                    break;
+                case 4:
+                    text = '完成'
+                    color = 'green'
+                    break;
+
+                default:
+                    text = '未知'
+                    color = '#ccc'
+                    break;
+            }
             return h('Tag', {
                 props: {
                     color: color,
