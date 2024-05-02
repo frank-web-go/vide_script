@@ -15,8 +15,8 @@
                         </Col>
                         <Col span="18">
                         <!-- <FormItem label="设备列表" prop="device_names"> -->
-                        <FormItem label="设备列表" prop="">
-                            <Select placeholder="请选择设备列表" multiple v-model="modal.params.device_names" clearable>
+                        <FormItem label="主机列表" prop="host_name">
+                            <Select placeholder="请选择主机列表" v-model="modal.params.host_name" clearable>
                                 <Option v-for="(item, index) in DeviceList" :value="item.name" :key="index"
                                     :label="item.name">{{ item.name }}</Option>
                             </Select>
@@ -28,15 +28,16 @@
                         </FormItem>
                         </Col> -->
                         <Col span="18">
-                        <FormItem label="任务数量" prop="">
-                            <Input v-model="modal.params.task_num"></Input>
+                        <FormItem label="博主列表" prop="blogger_ids">
+                            <Input v-model="modal.params.blogger_ids"></Input>
                         </FormItem>
                         </Col>
-                        <!-- <Col span="18">
-                        <FormItem label="完成数量" prop="">
-                            <Input v-model="modal.params.comp_num"></Input>
+                        <Col span="18">
+                        <FormItem label="任务数量">
+                            <Input v-model="modal.params.task_num" type="number"></Input>
                         </FormItem>
-                        </Col> -->
+                        </Col>
+
                         <!-- <Col span="18">
                        
                         <FormItem label="状态" prop="">
@@ -62,7 +63,7 @@
     </div>
 </template>
 <script>
-import { collectionAdd, getAllDevice } from "@/api/equipment";
+import { collectionAdd, getAllDeviceHost } from "@/api/equipment";
 export default {
     data() {
         return {
@@ -73,22 +74,19 @@ export default {
                 params: {
                     name: "",
                     // status: "",
-                    device_names: [],
-                    content: "",
+                    host_name: "",
                     task_num: null,
+                    blogger_ids: ""
                 },
                 rules: {
                     name: [
-                        { required: true, message: "请输入设备名称", trigger: "blur" }
+                        { required: true, message: "请输入任务名称", trigger: "blur" }
                     ],
-                    device_names: [
-                        { required: true, message: "请输入设备列表", trigger: "blur" }
+                    host_name: [
+                        { required: true, message: "请输入主机列表", trigger: "blur" }
                     ],
-                    content: [
-                        { required: true, message: "请输入消息内容", trigger: "blur" }
-                    ],
-                    task_num: [
-                        { required: true, message: "请输入任务数量", trigger: "blur" }
+                    blogger_ids: [
+                        { required: true, message: "请输入博主列表", trigger: "blur" }
                     ]
                 },
 
@@ -109,9 +107,11 @@ export default {
                     let data = {
                         ...this.modal.params,
                         // status: this.modal.params.status === "" ? 0 : this.modal.params.status,
-                        task_num: Number(this.modal.params.task_num)
+                        task_num: Number(this.modal.params.task_num),
+                        blogger_ids: [this.modal.params.blogger_ids],
                     }
                     collectionAdd(data).then(res => {
+
                         console.log(res);
                         if (res.code == 0) {
                             this.$message.success("新增成功")
@@ -129,7 +129,7 @@ export default {
             this.modal.show = false;
         },
         getAllDevice() {
-            getAllDevice({type:2}).then(res => {
+            getAllDeviceHost({ host_type: 2 }).then(res => {
                 if (res.code == 0) {
                     this.DeviceList = res.data || []
                 }

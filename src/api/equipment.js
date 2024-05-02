@@ -18,7 +18,9 @@ export function getDevice(data) {
 export function getAllDevice(data) {
     return request({ url: "/device/allavailable", data });
 }
-
+export function getAllDeviceHost(data) {
+    return request({ url: "/devicehost/allavailable", data });
+}
 export function getTask(data) {
     return request({ url: "/task/page", data });
 }
@@ -70,5 +72,26 @@ export function collectionStatusChange(data) {
 export function collectionDeleteMany(data) {
     return request({ url: "/taskcollection/deletemany", data });
 }
+
+export function deviceHostAdd(data) {
+    return request({ url: "/devicehost/addone", data });
+}
+
+export function deviceHostUpdate(data) {
+    return request({ url: "/devicehost/updateone", data });
+}
+
+export function deviceHostDeleteMany(data) {
+    return request({ url: "/devicehost/deletemany", data });
+}
+
+export function deviceHostPage(data) {
+    return request({ url: "/devicehost/page", data });
+}
+
+export function hostDetailPage(data) {
+    return request({ url: "/devicehost/alldevice", data });
+}
+
 
 

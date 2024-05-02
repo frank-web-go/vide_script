@@ -106,14 +106,24 @@ export const constantRoutes = [
         component: () => import("@/views/equipment/detail.vue"),
       },
       {
-        path: "/equipement/taskcollection",
-        name: "equipement-taskcollection",
+        path: "/equipement/host",
+        name: "equipement-host",
         meta: {
           hide: false,
-          title: "任务管理",
+          title: "主机管理",
           sort: 0,
         },
-        component: () => import("@/views/equipment/task.vue"),
+        component: () => import("@/views/equipment/host.vue"),
+      },
+      {
+        path: "/host/detail",
+        name: "host-detail",
+        meta: {
+          hide: false,
+          title: "主机详情",
+          sort: 0,
+        },
+        component: () => import("@/views/equipment/component/hostDetail.vue"),
       },
     ],
   },
@@ -133,10 +143,20 @@ export const constantRoutes = [
         name: "taskmanagement",
         meta: {
           hide: false,
-          title: "任务管理",
+          title: "发送任务",
           sort: 0,
         },
         component: () => import("@/views/task/task.vue"),
+      },
+      {
+        path: "/equipement/taskcollection",
+        name: "equipement-taskcollection",
+        meta: {
+          hide: false,
+          title: "采集任务",
+          sort: 0,
+        },
+        component: () => import("@/views/equipment/task.vue"),
       },
       {
         path: "/task/detail",

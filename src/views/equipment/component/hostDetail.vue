@@ -4,15 +4,12 @@
             <!-- 功能区 -->
             <div class="seach-form">
                 <el-form :inline="true">
-                    <el-form-item label="设备名称" >
-                        <el-input size="small" v-model="table.params.name" clearable></el-input>
-                    </el-form-item>
                     <el-form-item label="客户端IP">
                         <el-input size="small" v-model="table.params.client_ip" clearable></el-input>
                     </el-form-item>
-                    <el-form-item label="博主">
+                    <!-- <el-form-item label="博主">
                         <Input v-model="table.params.blogger_id"></Input>
-                    </el-form-item>
+                    </el-form-item> -->
                     <el-form-item label="是否在线">
                         <el-select size="small" v-model="table.params.online_type" clearable>
                             <el-option  label="在线" value="1" ></el-option>
@@ -43,31 +40,20 @@
                     <el-button size="small" type="danger" @click="deletesing(ids)">批量删除</el-button>
                 </div>
             </div>
-            <Table border @on-selection-change="handSelectChange" :columns="columns" :data="table.data"
+            <Table border :columns="columns" :data="table.data"
                 style="margin-top: 12px;" height="600">
-                <template #action="{ row }">
-
-                    <Button style="margin-left: 10px;" type="info" @click="update(row)">编辑</Button>
-                    <Button style="margin-left: 10px;" type="error" @click="deletesing(row.id)">删除</Button>
-                </template>
             </Table>
             <Page v-show="table.data.length" show-sizer show-total style="margin-top:10px;float:right;"
                 :total="table.total" :current="table.params.page" :page-size-opts="table.pageSizes"
                 :page-size="table.params.limit" @on-page-size-change="limitchange" @on-change="pagechange"></Page>
-            <!-- 新增模板 -->
-            <DetailModal @getList="getList" ref="detailModal"></DetailModal>
         </div>
     </el-card>
 </template>
 
 <script>
-import { Mixin } from "./selectMixin.js"
-import DetailModal from "./component/detailModel.vue";
-import { getDevice, delDevice } from "@/api/equipment";
+import { hostDetailPage } from "@/api/equipment";
+import { Mixin } from "../selectMixin.js"
 export default {
-    components: {
-        DetailModal,
-    },
     mixins: [Mixin],
     data() {
         return {
@@ -84,7 +70,6 @@ export default {
                 // { title: "说明", key: 'desc', align: 'center', Tooltip: true },
                 { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
                 { title: "最后交互时间", key: 'latest_mutual_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.latest_mutual_time)) },
-                { title: "操作", key: "operate", align: "center", width: 200, slot: "action" },
             ],
             table: {
                 params: {
@@ -133,50 +118,21 @@ export default {
             console.log('params: ', params);
             return h("span",params.row.device_type == 1 ? "发送广告": "收集粉丝" )     
         },
-        // handleBlogger(h,params){
-        //   return h("span",params.row.blogger_ids.join(", "))
-        // }, 
+        handleBlogger(h,params){
+          return h("span",params.row.blogger_ids.join(", "))
+        }, 
         getList() {
             let data = {...this.table.params}
             data.online_type = Number(data.online_type)
             data.enable_type = Number(data.enable_type)
             data.device_type = Number(data.device_type)
-            getDevice(data).then(res => {
+            data.host_name = sessionStorage.getItem("host_name")
+            hostDetailPage(data).then(res => {
                 console.log(res);
                 this.table.data = res.data.list || []
                 this.table.total = res.data.total
             })
         },
-        add() {
-            this.$refs.detailModal.modal.title = "新增设备信息"
-            this.$refs.detailModal.modal.params = {}
-            this.$refs.detailModal.modal.show = true
-        },
-        update(row) {
-            this.$refs.detailModal.modal.title = "编辑设备信息"
-            let data = {...row}
-            data.device_type = String(data.device_type)
-            // data.blogger_ids = data.blogger_ids.join(",")
-            this.$refs.detailModal.modal.params = data
-            this.$refs.detailModal.modal.show = true
-        },
-        deletesing(id) {
-            let ids = Array.isArray(id) ? id : [id]
-            if (ids.length == 0) return this.$message.warning("请选择要删除的设备信息")
-            this.$Modal.confirm({
-                title: "确认删除",
-                content: "<p>是否确认删除此设备信息</p>",
-                onOk: () => {
-                    delDevice({ ids }).then(res => {
-                        if (res.code == 0) {
-                            this.$message.success("删除成功")
-                            this.getList();
-                        }
-                    })
-                },
-            });
-        },
-
         limitchange(limit) {
             this.table.params.page = 1;
             this.table.params.limit = limit;

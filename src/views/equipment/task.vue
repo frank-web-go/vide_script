@@ -67,6 +67,7 @@ export default {
             columns: [
                 { type: 'selection', width: 60, align: 'center' },
                 { title: "任务名称", key: 'name', align: 'center' },
+                { title: "任务名称", key: 'run_name', align: 'center' },
                 { title: "设备列表", key: 'device_names', align: 'center' },
                 { title: "任务数量", key: 'task_num', align: 'center' },
                 { title: "完成数量", key: 'comp_num', align: 'center' },

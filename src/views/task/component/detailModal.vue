@@ -15,24 +15,28 @@
                         </Col>
                         <Col span="18">
                         <!-- <FormItem label="设备列表" prop="device_names"> -->
-                        <FormItem label="设备列表" prop="">
-                            <Select placeholder="请选择设备列表" multiple v-model="modal.params.device_names" clearable>
+                        <FormItem label="主机" prop="host_name">
+                            <Select placeholder="请选择主机列表" v-model="modal.params.host_name" clearable>
                                 <Option v-for="(item, index) in DeviceList" :value="item.name" :key="index"
                                     :label="item.name">{{ item.name }}</Option>
                             </Select>
                         </FormItem>
                         </Col>
                         <Col span="18">
-                        <FormItem label="消息内容" prop="">
+                        <FormItem label="消息内容" prop="content">
                             <Input v-model="modal.params.content"></Input>
                         </FormItem>
                         </Col>
                         <Col span="18">
-                        <FormItem label="任务数量" prop="">
-                            <Input v-model="modal.params.task_num"></Input>
+                        <FormItem label="任务数量" >
+                            <Input v-model="modal.params.task_num" type="number"></Input>
                         </FormItem>
                         </Col>
-
+                        <!-- <Col span="18">
+                        <FormItem label="完成数量" prop="">
+                            <Input v-model="modal.params.comp_num"></Input>
+                        </FormItem>
+                        </Col> -->
                         <!-- <Col span="18">
                        
                         <FormItem label="状态" prop="">
@@ -58,7 +62,7 @@
     </div>
 </template>
 <script>
-import { AddOneTask, UpdateOneTask, getAllDevice } from "@/api/equipment";
+import { AddOneTask, getAllDeviceHost } from "@/api/equipment";
 export default {
     data() {
         return {
@@ -68,8 +72,7 @@ export default {
                 ref: "equipment",
                 params: {
                     name: "",
-                    // status: "",
-                    device_names: [],
+                    host_name: "",
                     content: "",
                     task_num: null,
                 },
@@ -77,14 +80,14 @@ export default {
                     name: [
                         { required: true, message: "请输入设备名称", trigger: "blur" }
                     ],
-                    device_names: [
-                        { required: true, message: "请输入设备列表", trigger: "blur" }
+                    host_name: [
+                        { required: true, message: "请选择主机", trigger: "blur" }
                     ],
                     content: [
                         { required: true, message: "请输入消息内容", trigger: "blur" }
                     ],
                     task_num: [
-                        { required: true, message: "请输入任务数量", trigger: "blur" }
+                        { required: true, message: "请输入任务数量", trigger: "blur"}
                     ]
                 },
 
@@ -107,24 +110,14 @@ export default {
                         // status: this.modal.params.status === "" ? 0 : this.modal.params.status,
                         task_num: Number(this.modal.params.task_num)
                     }
-                    if (this.modal.params.id) {
-                        UpdateOneTask(data).then(res => {
-                            if (res.code == 0) {
-                                this.$message.success("修改成功")
-                                this.modal.show = false
-                                this.$emit("getList")
-                            }
-                        })
-                    } else {
-                        AddOneTask(data).then(res => {
-                            console.log(res);
-                            if (res.code == 0) {
-                                this.$message.success("新增成功")
-                                this.modal.show = false
-                                this.$emit("getList")
-                            }
-                        })
-                    }
+                    AddOneTask(data).then(res => {
+                        console.log(res);
+                        if (res.code == 0) {
+                            this.$message.success("新增成功")
+                            this.modal.show = false
+                            this.$emit("getList")
+                        }
+                    })
 
                 } else {
                     return false;
@@ -135,7 +128,7 @@ export default {
             this.modal.show = false;
         },
         getAllDevice() {
-            getAllDevice({type:1}).then(res => {
+            getAllDeviceHost({host_type:1}).then(res => {
                 if (res.code == 0) {
                     this.DeviceList = res.data || []
                 }

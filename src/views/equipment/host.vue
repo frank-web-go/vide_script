@@ -4,14 +4,17 @@
             <!-- 功能区 -->
             <div class="seach-form">
                 <el-form :inline="true">
-                    <el-form-item label="设备名称" >
+                    <el-form-item label="设备名称">
                         <el-input size="small" v-model="table.params.name" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="设备类型">
+                        <el-select size="small" v-model="table.params.host_type" clearable>
+                            <el-option  label="采集账号" value="1" ></el-option>
+                            <el-option  label="发送信息" value="2" ></el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item label="客户端IP">
                         <el-input size="small" v-model="table.params.client_ip" clearable></el-input>
-                    </el-form-item>
-                    <el-form-item label="博主">
-                        <Input v-model="table.params.blogger_id"></Input>
                     </el-form-item>
                     <el-form-item label="是否在线">
                         <el-select size="small" v-model="table.params.online_type" clearable>
@@ -23,12 +26,6 @@
                         <el-select size="small" v-model="table.params.enable_type" clearable>
                             <el-option  label="启用" value="1" ></el-option>
                             <el-option  label="禁用" value="2" ></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="设备类型">
-                        <el-select size="small" v-model="table.params.device_type" clearable>
-                            <el-option  label="发送广告" value="1" ></el-option>
-                            <el-option  label="收集粉丝" value="2" ></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item>
@@ -46,7 +43,7 @@
             <Table border @on-selection-change="handSelectChange" :columns="columns" :data="table.data"
                 style="margin-top: 12px;" height="600">
                 <template #action="{ row }">
-
+                    <Button type="info" @click="detail(row.name)">详情</Button>
                     <Button style="margin-left: 10px;" type="info" @click="update(row)">编辑</Button>
                     <Button style="margin-left: 10px;" type="error" @click="deletesing(row.id)">删除</Button>
                 </template>
@@ -55,45 +52,42 @@
                 :total="table.total" :current="table.params.page" :page-size-opts="table.pageSizes"
                 :page-size="table.params.limit" @on-page-size-change="limitchange" @on-change="pagechange"></Page>
             <!-- 新增模板 -->
-            <DetailModal @getList="getList" ref="detailModal"></DetailModal>
+            <HostModal @getList="getList" ref="hostModal"></HostModal>
         </div>
     </el-card>
 </template>
 
 <script>
 import { Mixin } from "./selectMixin.js"
-import DetailModal from "./component/detailModel.vue";
-import { getDevice, delDevice } from "@/api/equipment";
+import HostModal from "./component/hostModel.vue";
+import { deviceHostDeleteMany, deviceHostPage } from "@/api/equipment";
 export default {
     components: {
-        DetailModal,
+        HostModal,
     },
     mixins: [Mixin],
     data() {
         return {
             columns: [
                 { type: 'selection', width: 60, align: 'center' },
-                { title: "设备名称", key: 'name', align: 'center' },
-                { title: "客户端IP", key: 'client_ip', align: 'center' },
-                // { title: "博主列表", key: 'blogger_ids', align: 'center',tooltip: true},
-                // { title: "今日余量", key: 'today_rem_num', align: 'center' },
-                // { title: "发送总数量", key: 'send_total_num', align: 'center' },
+                { title: "主机名称", key: 'name', align: 'center' },
+                { title: "设备类型", key: 'host_type', align: 'center',render: (h, params) => { return this.handleHostType(h, params) } },
                 { title: "是否在线", key: 'send_total_num', align: 'center', render: (h, params) => { return this.ispublic(h, params,"online") } },
-                { title: "设备类型", key: 'device_type', align: 'center', render: (h, params) => { return this.handleDeviceType(h, params) } },
+                { title: "设备列表", key: 'device_names', align: 'center', render: (h, params) => { return this.handleDeviceNames(h, params) } },
+                { title: "客户端IP", key: 'host_ip', align: 'center' },
                 { title: "状态", key: 'enable', align: 'center', render: (h, params) => { return this.ispublic(h, params,"enable") } },
-                // { title: "说明", key: 'desc', align: 'center', Tooltip: true },
+                { title: "描述", key: 'desc', align: 'center', Tooltip: true },
                 { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
                 { title: "最后交互时间", key: 'latest_mutual_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.latest_mutual_time)) },
-                { title: "操作", key: "operate", align: "center", width: 200, slot: "action" },
+                { title: "操作", key: "operate", align: "center", width: 250, slot: "action" },
             ],
             table: {
                 params: {
                     name: "",
-                    blogger_id: "",
+                    host_type: "",
+                    host_ip:"",
                     online_type: "",
                     enable_type: "",
-                    client_ip:"",
-                    device_type:""
                 }
             }
         };
@@ -129,45 +123,54 @@ export default {
                 }
             }, text);
         },
+        detail(name) {
+            sessionStorage.setItem("host_name",name)
+            this.$router.push("/host/detail")
+        },
         handleDeviceType(h,params) {
             console.log('params: ', params);
             return h("span",params.row.device_type == 1 ? "发送广告": "收集粉丝" )     
         },
-        // handleBlogger(h,params){
-        //   return h("span",params.row.blogger_ids.join(", "))
-        // }, 
+        handleHostType(h,params) {
+            console.log('params: ', params);
+            return h("span",params.row.host_type == 1 ? "采集账号": "发送信息" )   
+        },
+        handleDeviceNames(h,params){
+          return h("span",params.row.device_names.join(", "))
+        }, 
         getList() {
             let data = {...this.table.params}
             data.online_type = Number(data.online_type)
             data.enable_type = Number(data.enable_type)
-            data.device_type = Number(data.device_type)
-            getDevice(data).then(res => {
+            data.host_type = Number(data.host_type)
+            deviceHostPage(data).then(res => {
                 console.log(res);
                 this.table.data = res.data.list || []
                 this.table.total = res.data.total
             })
         },
         add() {
-            this.$refs.detailModal.modal.title = "新增设备信息"
-            this.$refs.detailModal.modal.params = {}
-            this.$refs.detailModal.modal.show = true
+            this.$refs.hostModal.modal.title = "新增主机信息"
+            this.$refs.hostModal.modal.params = {}
+            this.$refs.hostModal.modal.show = true
         },
         update(row) {
-            this.$refs.detailModal.modal.title = "编辑设备信息"
-            let data = {...row}
-            data.device_type = String(data.device_type)
-            // data.blogger_ids = data.blogger_ids.join(",")
-            this.$refs.detailModal.modal.params = data
-            this.$refs.detailModal.modal.show = true
+            this.$refs.hostModal.modal.title = "编辑主机信息"
+            let data = JSON.parse(JSON.stringify(row))
+            data.host_type = String(data.host_type)
+            // data.device_names = data.device_names.join(",")
+            console.log(' data: ',  data);
+            this.$refs.hostModal.modal.params = data
+            this.$refs.hostModal.modal.show = true
         },
         deletesing(id) {
             let ids = Array.isArray(id) ? id : [id]
-            if (ids.length == 0) return this.$message.warning("请选择要删除的设备信息")
+            if (ids.length == 0) return this.$message.warning("请选择要删除的主机信息")
             this.$Modal.confirm({
                 title: "确认删除",
-                content: "<p>是否确认删除此设备信息</p>",
+                content: "<p>是否确认删除此主机信息</p>",
                 onOk: () => {
-                    delDevice({ ids }).then(res => {
+                    deviceHostDeleteMany({ ids }).then(res => {
                         if (res.code == 0) {
                             this.$message.success("删除成功")
                             this.getList();
@@ -189,7 +192,8 @@ export default {
         },
         resetDevice(){
             this.table.params.name =""
-            this.table.params.platform_account =""
+            this.table.params.host_type =""
+            this.table.params.host_ip = ""
             this.table.params.online_type =""
             this.table.params.enable_type =""
             this.getList();
