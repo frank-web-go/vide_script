@@ -10,14 +10,14 @@
                     <el-form-item label="隐私性">
                         <el-select size="small" v-model="table.params.privacy_type" clearable>
                             <el-option label="开放" :value="1"></el-option>
-                            <el-option label="关闭" :value="0"></el-option>
+                            <el-option label="关闭" :value="2"></el-option>
 
                         </el-select>
                     </el-form-item>
                     <el-form-item label="送达">
                         <el-select size="small" v-model="table.params.deliver_type" clearable>
                             <el-option label="是" :value="1"></el-option>
-                            <el-option label="否" :value="0"></el-option>
+                            <el-option label="否" :value="2"></el-option>
 
                         </el-select>
                     </el-form-item>

@@ -4,7 +4,6 @@
             <!-- 功能区 -->
             <div class="seach-form">
                 <el-form :inline="true">
-                 
                     <el-form-item label="设备名称">
                         <el-input size="small" v-model="table.params.device_name" clearable></el-input>
                     </el-form-item>

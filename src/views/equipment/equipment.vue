@@ -7,12 +7,15 @@
                     <el-form-item label="设备名称" >
                         <el-input size="small" v-model="table.params.name" clearable></el-input>
                     </el-form-item>
+                    <el-form-item label="模拟器名称" >
+                        <el-input size="small" v-model="table.params.run_name" clearable></el-input>
+                    </el-form-item>
                     <el-form-item label="客户端IP">
                         <el-input size="small" v-model="table.params.client_ip" clearable></el-input>
                     </el-form-item>
-                    <el-form-item label="博主">
+                    <!-- <el-form-item label="博主">
                         <Input v-model="table.params.blogger_id"></Input>
-                    </el-form-item>
+                    </el-form-item> -->
                     <el-form-item label="是否在线">
                         <el-select size="small" v-model="table.params.online_type" clearable>
                             <el-option  label="在线" value="1" ></el-option>
@@ -90,7 +93,7 @@ export default {
             table: {
                 params: {
                     name: "",
-                    blogger_id: "",
+                    run_name:"",
                     online_type: "",
                     enable_type: "",
                     client_ip:"",
@@ -190,7 +193,9 @@ export default {
         },
         resetDevice(){
             this.table.params.name =""
-            this.table.params.platform_account =""
+            this.table.params.run_name = ""
+            this.table.params.device_type = ""
+            this.table.params.client_ip =""
             this.table.params.online_type =""
             this.table.params.enable_type =""
             this.getList();

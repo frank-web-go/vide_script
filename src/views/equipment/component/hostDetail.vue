@@ -2,31 +2,10 @@
     <el-card style="height: 820px">
         <div class="body">
             <!-- 功能区 -->
-            <div class="seach-form">
+            <!-- <div class="seach-form">
                 <el-form :inline="true">
-                    <el-form-item label="客户端IP">
-                        <el-input size="small" v-model="table.params.client_ip" clearable></el-input>
-                    </el-form-item>
-                    <!-- <el-form-item label="博主">
-                        <Input v-model="table.params.blogger_id"></Input>
-                    </el-form-item> -->
-                    <el-form-item label="是否在线">
-                        <el-select size="small" v-model="table.params.online_type" clearable>
-                            <el-option  label="在线" value="1" ></el-option>
-                            <el-option  label="离线" value="2" ></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="状态">
-                        <el-select size="small" v-model="table.params.enable_type" clearable>
-                            <el-option  label="启用" value="1" ></el-option>
-                            <el-option  label="禁用" value="2" ></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="设备类型">
-                        <el-select size="small" v-model="table.params.device_type" clearable>
-                            <el-option  label="发送广告" value="1" ></el-option>
-                            <el-option  label="收集粉丝" value="2" ></el-option>
-                        </el-select>
+                    <el-form-item label="主机名称">
+                        <el-input size="small" v-model="table.params.host_name" clearable></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button size="small" type="primary" @click="getList">查询</el-button>
@@ -35,11 +14,7 @@
                         <el-button size="small" type="primary" @click="resetDevice">重置</el-button>
                     </el-form-item>
                 </el-form>
-                <div>
-                    <el-button size="small" type="primary" @click="add()">新增</el-button>
-                    <el-button size="small" type="danger" @click="deletesing(ids)">批量删除</el-button>
-                </div>
-            </div>
+            </div> -->
             <Table border :columns="columns" :data="table.data"
                 style="margin-top: 12px;" height="600">
             </Table>
@@ -73,12 +48,7 @@ export default {
             ],
             table: {
                 params: {
-                    name: "",
-                    blogger_id: "",
-                    online_type: "",
-                    enable_type: "",
-                    client_ip:"",
-                    device_type:""
+                    host_name:""
                 }
             }
         };
@@ -123,9 +93,6 @@ export default {
         }, 
         getList() {
             let data = {...this.table.params}
-            data.online_type = Number(data.online_type)
-            data.enable_type = Number(data.enable_type)
-            data.device_type = Number(data.device_type)
             data.host_name = sessionStorage.getItem("host_name")
             hostDetailPage(data).then(res => {
                 console.log(res);
@@ -144,10 +111,7 @@ export default {
             this.getList();
         },
         resetDevice(){
-            this.table.params.name =""
-            this.table.params.platform_account =""
-            this.table.params.online_type =""
-            this.table.params.enable_type =""
+            this.table.params.host_name =""
             this.getList();
         }
     },

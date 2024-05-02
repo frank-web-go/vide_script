@@ -16,7 +16,7 @@
                         <Col span="18">
                         <!-- <FormItem label="设备列表" prop="device_names"> -->
                         <FormItem label="主机" prop="host_name">
-                            <Select placeholder="请选择主机列表" v-model="modal.params.host_name" clearable>
+                            <Select placeholder="请选择主机列表" v-model="modal.params.host_name" @on-open-change="hostNameChange" clearable>
                                 <Option v-for="(item, index) in DeviceList" :value="item.name" :key="index"
                                     :label="item.name">{{ item.name }}</Option>
                             </Select>
@@ -96,7 +96,6 @@ export default {
         };
     },
     mounted() {
-        this.getAllDevice()
     },
     computed: {
 
@@ -108,7 +107,7 @@ export default {
                     let data = {
                         ...this.modal.params,
                         // status: this.modal.params.status === "" ? 0 : this.modal.params.status,
-                        task_num: Number(this.modal.params.task_num)
+                        single_num: Number(this.modal.params.single_num)
                     }
                     AddOneTask(data).then(res => {
                         console.log(res);
@@ -123,6 +122,9 @@ export default {
                     return false;
                 }
             });
+        },
+        hostNameChange(){
+            this.getAllDevice()
         },
         closeModal() {
             this.modal.show = false;

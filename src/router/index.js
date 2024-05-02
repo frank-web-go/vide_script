@@ -100,7 +100,7 @@ export const constantRoutes = [
         name: "equipement-detail",
         meta: {
           hide: false,
-          title: "设备详情",
+          title: "模拟器管理",
           sort: 0,
         },
         component: () => import("@/views/equipment/equipment.vue"),

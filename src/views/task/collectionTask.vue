@@ -10,6 +10,15 @@
                     <el-form-item label="设备名称">
                         <el-input size="small" v-model="table.params.device_name" clearable></el-input>
                     </el-form-item>
+                    <el-form-item label="主机名称">
+                        <el-input size="small" v-model="table.params.host_name" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="设备类型">
+                        <el-select size="small" v-model="table.params.equip_type" clearable>
+                            <el-option label="主机" :value="1"></el-option>
+                            <el-option label="设备" :value="2"></el-option>
+                        </el-select>
+                    </el-form-item>
                     <el-form-item label="状态">
                         <el-select size="small" v-model="table.params.status" clearable>
                             <el-option label="审核中" :value="1"></el-option>
@@ -69,6 +78,7 @@ export default {
                 { title: "任务名称", key: 'name', align: 'center' },
                 { title: "设备列表", key: 'device_names', align: 'center' },
                 { title: "任务数量", key: 'task_num', align: 'center' },
+                { title: "单台任务数量", key: 'single_num', align: 'center' },
                 { title: "完成数量", key: 'comp_num', align: 'center' },
                 { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(h, params, "online") } },
                 { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
@@ -80,6 +90,8 @@ export default {
                     name: "",
                     status: "",
                     device_name:"",
+                    host_name:"",
+                    equip_type:"",
                     page: 1,
                     limit: 10
                 },
@@ -169,7 +181,8 @@ export default {
         getList() {
             let data = {
                 ...this.table.params,
-                status: this.table.params.status === "" ? 0 : this.table.params.status
+                status: this.table.params.status === "" ? 0 : this.table.params.status,
+                equip_type: this.table.params.equip_type === "" ? 0 : this.table.params.equip_type
             }
 
             collectionPage(data).then(res => {
@@ -229,6 +242,8 @@ export default {
             this.table.params.name = ""
             this.table.params.status= ""
             this.table.params.device_name = ""
+            this.table.params.equip_type = ""
+            this.table.params.host_name = ""
             this.getList();
         }
     },
