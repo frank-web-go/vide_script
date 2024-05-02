@@ -73,6 +73,10 @@ export function collectionDeleteMany(data) {
     return request({ url: "/taskcollection/deletemany", data });
 }
 
+export function collectionDetail(data) {
+    return request({ url: "/taskcollectiondetail/page", data });
+}
+
 export function deviceHostAdd(data) {
     return request({ url: "/devicehost/addone", data });
 }

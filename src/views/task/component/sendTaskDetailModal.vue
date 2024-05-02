@@ -28,8 +28,8 @@
                         </FormItem>
                         </Col>
                         <Col span="18">
-                        <FormItem label="任务数量" >
-                            <Input v-model="modal.params.task_num" type="number"></Input>
+                        <FormItem label="单台任务数量" >
+                            <Input v-model="modal.params.single_num" type="number"></Input>
                         </FormItem>
                         </Col>
                         <!-- <Col span="18">
@@ -74,7 +74,7 @@ export default {
                     name: "",
                     host_name: "",
                     content: "",
-                    task_num: null,
+                    single_num: null,
                 },
                 rules: {
                     name: [
@@ -86,7 +86,7 @@ export default {
                     content: [
                         { required: true, message: "请输入消息内容", trigger: "blur" }
                     ],
-                    task_num: [
+                    single_num: [
                         { required: true, message: "请输入任务数量", trigger: "blur"}
                     ]
                 },

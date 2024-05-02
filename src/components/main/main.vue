@@ -18,7 +18,7 @@
             style="display: flex; align-items: center; justify-content: center"
           >
             <!-- <img :src="headMaxWidthLogoImg" alt="" style="width: 40px; height: 40px" /> -->
-            <h4 style="font-size: 20px">&nbsp;脚本任务管理</h4>
+            <h4 style="font-size: 20px">&nbsp;脚本任务</h4>
           </span>
         </div>
         <Menu

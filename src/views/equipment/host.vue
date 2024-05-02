@@ -127,13 +127,9 @@ export default {
             sessionStorage.setItem("host_name",name)
             this.$router.push("/host/detail")
         },
-        handleDeviceType(h,params) {
-            console.log('params: ', params);
-            return h("span",params.row.device_type == 1 ? "发送广告": "收集粉丝" )     
-        },
         handleHostType(h,params) {
             console.log('params: ', params);
-            return h("span",params.row.host_type == 1 ? "采集账号": "发送信息" )   
+            return h("span",params.row.host_type == 1 ? "发送广告": "收集粉丝" )   
         },
         handleDeviceNames(h,params){
           return h("span",params.row.device_names.join(", "))
@@ -158,9 +154,7 @@ export default {
             this.$refs.hostModal.modal.title = "编辑主机信息"
             let data = JSON.parse(JSON.stringify(row))
             data.host_type = String(data.host_type)
-            // data.device_names = data.device_names.join(",")
-            console.log(' data: ',  data);
-            this.$refs.hostModal.modal.params = data
+            this.$refs.hostModal.handleData(data)
             this.$refs.hostModal.modal.show = true
         },
         deletesing(id) {

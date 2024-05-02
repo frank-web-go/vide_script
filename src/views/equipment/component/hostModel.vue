@@ -24,7 +24,7 @@
                         <FormItem label="设备列表">
                             <Select placeholder="请选择设备列表" multiple v-model="modal.params.device_names" clearable>
                                 <Option v-for="(item, index) in deviceList" :value="item.name" :key="index"
-                                    :label="item.name">{{ item.name }}</Option>
+                                    :label="item">{{ item.name }}</Option>
                             </Select>
                         </FormItem>
                         </Col>
@@ -49,11 +49,11 @@
     </div>
 </template>
 <script>
-import { deviceHostAdd, deviceHostUpdate,getAllDevice } from "@/api/equipment";
+import { deviceHostAdd, deviceHostUpdate, getAllDevice } from "@/api/equipment";
 export default {
     data() {
         return {
-            deviceList:[],
+            deviceList: [],
             modal: {
                 show: false,
                 title: "",
@@ -61,7 +61,7 @@ export default {
                 params: {
                     name: "",
                     host_type: "",
-                    device_names: [],
+                    device_names: [111, 222],
                     host_ip: "",
                     desc: ""
                 },
@@ -122,15 +122,18 @@ export default {
                 }
             });
         },
+        handleData(val) {
+            this.modal.params = val
+        },
         hostTypeChange(val) {
             console.log('val: ', val);
-            // if (this.modal.title === "新增主机信息") {
-                getAllDevice({device_type:Number(val)}).then(res => {
+            if (this.modal.title === "新增主机信息") {
+                getAllDevice({ device_type: Number(val) }).then(res => {
                     if (res.code == 0) {
                         this.deviceList = res.data || []
                     }
                 })
-            // }
+            }
         },
         closeModal() {
             this.modal.show = false;

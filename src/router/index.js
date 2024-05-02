@@ -103,7 +103,7 @@ export const constantRoutes = [
           title: "设备详情",
           sort: 0,
         },
-        component: () => import("@/views/equipment/detail.vue"),
+        component: () => import("@/views/equipment/equipment.vue"),
       },
       {
         path: "/equipement/host",
@@ -146,7 +146,7 @@ export const constantRoutes = [
           title: "发送任务",
           sort: 0,
         },
-        component: () => import("@/views/task/task.vue"),
+        component: () => import("@/views/task/sendTask.vue"),
       },
       {
         path: "/equipement/taskcollection",
@@ -156,7 +156,7 @@ export const constantRoutes = [
           title: "采集任务",
           sort: 0,
         },
-        component: () => import("@/views/equipment/task.vue"),
+        component: () => import("@/views/task/collectionTask.vue"),
       },
       {
         path: "/task/detail",
@@ -166,7 +166,7 @@ export const constantRoutes = [
           title: "任务详情",
           sort: 0,
         },
-        component: () => import("@/views/task/component/detail"),
+        component: () => import("@/views/task/component/taskDetail"),
       },
       {
         path: "/task/successuser",
@@ -177,137 +177,6 @@ export const constantRoutes = [
           sort: 0,
         },
         component: () => import("@/views/successuser/successuser.vue"),
-      },
-    ],
-  },
-  {
-    path: "/dictionary",
-    name: "dictionary",
-    component: Main,
-    meta: {
-      hide: false,
-      img: "shaihao.png",
-      title: "字典管理",
-      sort: 0,
-    },
-    children: [
-      {
-        path: "/dictionary/classification",
-        name: "classification",
-        meta: {
-          hide: false,
-          title: "分类管理",
-          sort: 0,
-        },
-        component: () =>
-          import("@/views/video/Classification/classification.vue"),
-      },
-      {
-        path: "/dictionary/tags",
-        name: "tags",
-        meta: {
-          hide: false,
-          title: "标签管理",
-          sort: 0,
-        },
-        component: () => import("@/views/dictionary/Tags/index.vue"),
-      },
-      {
-        path: "/dictionary/language",
-        name: "language",
-        meta: {
-          hide: false,
-          title: "语言管理",
-          sort: 0,
-        },
-        component: () => import("@/views/dictionary/language/index.vue"),
-      },
-      {
-        path: "/dictionary/area",
-        name: "area",
-        meta: {
-          hide: false,
-          title: "地区管理",
-          sort: 0,
-        },
-        component: () => import("@/views/dictionary/area/index.vue"),
-      },
-      {
-        path: "/dictionary/domain",
-        name: "domain",
-        meta: {
-          hide: false,
-          title: "域名管理",
-          sort: 0,
-        },
-        component: () => import("@/views/dictionary/domain/index.vue"),
-      },
-    ],
-  },
-  {
-    path: "/internatdictionary",
-    name: "internatdictionary",
-    component: Main,
-    meta: {
-      hide: false,
-      img: "shaihao.png",
-      title: "国际化管理",
-      sort: 0,
-    },
-    children: [
-      {
-        path: "/internatdictionary/classification",
-        name: "internatdictionary-classification",
-        meta: {
-          hide: false,
-          title: "分类国际化管理",
-          sort: 0,
-        },
-        component: () =>
-          import(
-            "@/views/internatdictionary/Classification/classification.vue"
-          ),
-      },
-      {
-        path: "/internatdictionary/tags",
-        name: "internatdictionary-tags",
-        meta: {
-          hide: false,
-          title: "标签国际化管理",
-          sort: 0,
-        },
-        component: () => import("@/views/internatdictionary/Tags/index.vue"),
-      },
-      {
-        path: "/internatdictionary/language",
-        name: "internatdictionary-language",
-        meta: {
-          hide: false,
-          title: "语言国际化管理",
-          sort: 0,
-        },
-        component: () =>
-          import("@/views/internatdictionary/language/index.vue"),
-      },
-      {
-        path: "/internatdictionary/area",
-        name: "internatdictionary-area",
-        meta: {
-          hide: false,
-          title: "地区国际化管理",
-          sort: 0,
-        },
-        component: () => import("@/views/internatdictionary/area/index.vue"),
-      },
-      {
-        path: "/internatdictionary/movie",
-        name: "internatdictionary-movie",
-        meta: {
-          hide: false,
-          title: "影片国际化管理",
-          sort: 0,
-        },
-        component: () => import("@/views/internatdictionary/movie/index.vue"),
       },
     ],
   },

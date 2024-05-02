@@ -33,8 +33,8 @@
                         </FormItem>
                         </Col>
                         <Col span="18">
-                        <FormItem label="任务数量">
-                            <Input v-model="modal.params.task_num" type="number"></Input>
+                        <FormItem label="单台任务数量">
+                            <Input v-model="modal.params.single_num" type="number"></Input>
                         </FormItem>
                         </Col>
 
@@ -75,7 +75,7 @@ export default {
                     name: "",
                     // status: "",
                     host_name: "",
-                    task_num: null,
+                    single_num: null,
                     blogger_ids: ""
                 },
                 rules: {
