@@ -30,6 +30,11 @@
                                 <Option value="2" label="收集粉丝"></Option>
                             </Select>
                         </FormItem>
+                        <Col span="18" v-if="modal.params.device_type == 1">
+                        <FormItem label="博主列表" prop="blogger_ids">
+                            <Input v-model="modal.params.blogger_ids"></Input>
+                        </FormItem>
+                        </Col>
                         <!-- <Col span="18">
                         <FormItem label="今日余量" prop="today_rem_num">
                             <Input v-model="modal.params.today_rem_num" type="number"></Input>
@@ -78,7 +83,8 @@ export default {
                     // blogger_ids: "",
                     client_ip: "",
                     device_type: "",
-                    run_name:""
+                    run_name:"",
+                    blogger_ids: ""
                     // today_rem_num:"",
                     // desc:""
                 },
@@ -95,9 +101,9 @@ export default {
                     device_type: [
                         { required: true, message: "请选择设备类型", trigger: "blur" }
                     ],
-                    // blogger_ids: [
-                    //     { required: true, message: "请输入平台账号", trigger: "blur" }
-                    // ]
+                    blogger_ids: [
+                        { required: true, message: "请输入平台账号", trigger: "blur" }
+                    ]
                 },
 
             }
@@ -124,7 +130,8 @@ export default {
                     let data = {
                         ...this.modal.params,
                         today_rem_num: this.modal.params.today_rem_num == "" ? 0 : Number(this.modal.params.today_rem_num),
-                        device_type: Number(this.modal.params.device_type)
+                        device_type: Number(this.modal.params.device_type),
+                        blogger_ids: [this.modal.params.blogger_ids],
                     }
 
                     if (this.modal.params.id) {

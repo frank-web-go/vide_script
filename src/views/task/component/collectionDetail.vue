@@ -43,7 +43,8 @@ export default {
                 { type: 'selection', width: 60, align: 'center' },
                 // { title: "任务ID", key: 'task_id', align: 'center' },
                 { title: "设备名称", key: 'device_name', align: 'center' },
-                { title: "消息内容", key: 'content', align: 'center' },
+                { title: "博主", key: 'blogger_id', align: 'center' },
+                // { title: "消息内容", key: 'content', align: 'center' },
                 { title: "任务数量", key: 'task_num', align: 'center' },
                 { title: "完成数量", key: 'comp_num', align: 'center' },
                 // { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(params) } },
@@ -130,7 +131,7 @@ export default {
         getList() {
             let data = {
                 ...this.table.params,
-                task_id:sessionStorage.getItem("task_id"),
+                task_id:sessionStorage.getItem("collection_id"),
                 status: this.table.params.status === "" ? 0 : this.table.params.status
             }
             collectionDetail(data).then(res => {

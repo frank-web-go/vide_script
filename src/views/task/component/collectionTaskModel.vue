@@ -27,11 +27,7 @@
                             <Input v-model="modal.params.content"></Input>
                         </FormItem>
                         </Col> -->
-                        <Col span="18">
-                        <FormItem label="博主列表" prop="blogger_ids">
-                            <Input v-model="modal.params.blogger_ids"></Input>
-                        </FormItem>
-                        </Col>
+                      
                         <Col span="18">
                         <FormItem label="单台任务数量">
                             <Input v-model="modal.params.single_num" type="number"></Input>
@@ -76,7 +72,7 @@ export default {
                     // status: "",
                     host_name: "",
                     single_num: null,
-                    blogger_ids: ""
+                   
                 },
                 rules: {
                     name: [
@@ -84,9 +80,6 @@ export default {
                     ],
                     host_name: [
                         { required: true, message: "请输入主机列表", trigger: "blur" }
-                    ],
-                    blogger_ids: [
-                        { required: true, message: "请输入博主列表", trigger: "blur" }
                     ]
                 },
 
@@ -108,7 +101,6 @@ export default {
                         ...this.modal.params,
                         // status: this.modal.params.status === "" ? 0 : this.modal.params.status,
                         task_num: Number(this.modal.params.task_num),
-                        blogger_ids: [this.modal.params.blogger_ids],
                     }
                     collectionAdd(data).then(res => {
 

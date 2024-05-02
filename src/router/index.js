@@ -159,14 +159,22 @@ export const constantRoutes = [
         component: () => import("@/views/task/collectionTask.vue"),
       },
       {
-        path: "/task/detail",
-        name: "taskdetail",
+        path: "/send/detail",
         meta: {
           hide: false,
-          title: "任务详情",
+          title: "发送任务详情",
           sort: 0,
         },
-        component: () => import("@/views/task/component/taskDetail"),
+        component: () => import("@/views/task/component/sendDetail.vue"),
+      },
+      {
+        path: "/collection/detail",
+        meta: {
+          hide: false,
+          title: "采集任务详情",
+          sort: 0,
+        },
+        component: () => import("@/views/task/component/collectionDetail.vue"),
       },
       {
         path: "/task/successuser",

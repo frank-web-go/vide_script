@@ -47,17 +47,17 @@
                 :total="table.total" :current="table.params.page" :page-size-opts="table.pageSizes"
                 :page-size="table.params.limit" @on-page-size-change="limitchange" @on-change="pagechange"></Page>
             <!-- 新增模板 -->
-            <DetailModal @getList="getList" ref="detailModal"></DetailModal>
+            <sendTaskModal @getList="getList" ref="detailModal"></sendTaskModal>
         </div>
     </el-card>
 </template>
 
 <script>
 import { getTask, DeleteManyTask, updateStatus } from "@/api/equipment";
-import DetailModal from "./component/sendTaskDetailModal.vue";
+import sendTaskModal from "./component/sendTaskModal.vue";
 export default {
     components: {
-        DetailModal,
+        sendTaskModal,
     },
     data() {
         return {
@@ -189,8 +189,8 @@ export default {
         //     this.$refs.detailModal.modal.show = true
         // },
         detail(id) {
-            sessionStorage.setItem("task_id", id)
-            this.$router.push("/task/detail")
+            sessionStorage.setItem("send_id", id)
+            this.$router.push("/send/detail")
         },
         deletesing(id) {
             let ids = Array.isArray(id) ? id : [id]
@@ -210,16 +210,6 @@ export default {
         },
         handSelectChange(row) {
             this.ids = row.map(item => item.id)
-        },
-        addTags() {
-            this.$refs.addvideos.modal.show = true
-            this.$refs.addvideos.modal.title = "添加标签"
-            this.$refs.addvideos.getTagDetail({})
-        },
-        updateMV(row) {
-            this.$refs.addvideos.modal.show = true
-            this.$refs.addvideos.modal.title = "修改标签"
-            this.$refs.addvideos.getTagDetail(row)
         },
         settime(time) {
             return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD HH:mm:ss')

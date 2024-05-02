@@ -24,7 +24,7 @@
                         <FormItem label="设备列表">
                             <Select placeholder="请选择设备列表" multiple v-model="modal.params.device_names" clearable>
                                 <Option v-for="(item, index) in deviceList" :value="item.name" :key="index"
-                                    :label="item">{{ item.name }}</Option>
+                                    :label="item.name">{{ item.name }}</Option>
                             </Select>
                         </FormItem>
                         </Col>
@@ -127,13 +127,11 @@ export default {
         },
         hostTypeChange(val) {
             console.log('val: ', val);
-            if (this.modal.title === "新增主机信息") {
                 getAllDevice({ device_type: Number(val) }).then(res => {
                     if (res.code == 0) {
                         this.deviceList = res.data || []
                     }
                 })
-            }
         },
         closeModal() {
             this.modal.show = false;
