@@ -187,9 +187,13 @@ export default {
         update(row) {
             this.$refs.hostModal.modal.title = "编辑主机信息"
             let data = JSON.parse(JSON.stringify(row))
+            this.$refs.hostModal.hostTypeChange(data.host_type)
             data.host_type = String(data.host_type)
-            this.$refs.hostModal.handleData(data)
-            this.$refs.hostModal.modal.show = true
+            // this.$refs.hostModal.handleData(data)
+            this.$refs.hostModal.modal.params = data
+            setTimeout(()=>{
+                this.$refs.hostModal.modal.show = true
+            },500)
         },
         deletesing(id) {
             let ids = Array.isArray(id) ? id : [id]

@@ -127,12 +127,13 @@ export default {
         submitForm() {
             this.$refs["equipment"].validate((valid) => {
                 if (valid) {
+                    console.log('this.modal.params: ', this.modal.params);
                     let data = {
                         ...this.modal.params,
-                        today_rem_num: this.modal.params.today_rem_num == "" ? 0 : Number(this.modal.params.today_rem_num),
                         device_type: Number(this.modal.params.device_type),
-                        blogger_ids: this.modal.params.blogger_ids.split("\n")
+                        blogger_ids:  this.modal.params.device_type == 2 ? this.modal.params.blogger_ids.split("\n"):[]
                     }
+                    console.log('data: ', data);
 
                     if (this.modal.params.id) {
                         updateDevice(data).then(res => {
@@ -143,7 +144,6 @@ export default {
                             }
                         })
                     } else {
-
                         addDevice(data).then(res => {
                             console.log(res);
                             if (res.code == 0) {
