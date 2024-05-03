@@ -194,7 +194,7 @@ export default {
             this.$refs.detailModal.modal.title = "编辑设备信息"
             let data = {...row}
             data.device_type = String(data.device_type)
-            // data.blogger_ids = data.blogger_ids.join(",")
+            data.blogger_ids = data.blogger_ids.join(",")
             this.$refs.detailModal.modal.params = data
             this.$refs.detailModal.modal.show = true
         },

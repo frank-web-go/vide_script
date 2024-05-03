@@ -10,7 +10,7 @@
                     <Row>
                         <Col span="18">
                         <FormItem label="设备名称" prop="name">
-                            <Input v-model="modal.params.name"></Input>
+                            <Input v-model="modal.params.name" :disabled="modal.title == '编辑设备信息'"></Input>
                         </FormItem>
                         </Col>
                         <Col span="18">
@@ -20,7 +20,7 @@
                         </Col>
                         <Col span="18">
                         <FormItem label="客户端IP" prop="client_ip">
-                            <Input v-model="modal.params.client_ip"></Input>
+                            <Input v-model="modal.params.client_ip" :disabled="modal.title == '编辑设备信息'"></Input>
                         </FormItem>
                         </Col>
                         <FormItem label="设备类型" prop="device_type">
@@ -30,7 +30,7 @@
                                 <Option value="2" label="收集粉丝"></Option>
                             </Select>
                         </FormItem>
-                        <Col span="18" v-if="modal.params.device_type == 1">
+                        <Col span="18" v-if="modal.params.device_type == 2">
                         <FormItem label="博主列表" prop="blogger_ids">
                             <Input v-model="modal.params.blogger_ids"></Input>
                         </FormItem>
@@ -102,7 +102,7 @@ export default {
                         { required: true, message: "请选择设备类型", trigger: "blur" }
                     ],
                     blogger_ids: [
-                        { required: true, message: "请输入平台账号", trigger: "blur" }
+                        { required: true, message: "请输入博主列表", trigger: "blur" }
                     ]
                 },
 

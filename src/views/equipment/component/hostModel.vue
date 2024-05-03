@@ -10,7 +10,7 @@
                     <Row>
                         <Col span="18">
                         <FormItem label="主机名称" prop="name">
-                            <Input v-model="modal.params.name"></Input>
+                            <Input v-model="modal.params.name" :disabled="modal.title == '编辑主机信息'"></Input>
                         </FormItem>
                         </Col>
                         <Col span="18">
@@ -21,6 +21,8 @@
                                 <Option value="2" label="收集粉丝"></Option>
                             </Select>
                         </FormItem>
+                        </Col>
+                        <Col span="18">
                         <FormItem label="设备列表">
                             <Select placeholder="请选择设备列表" multiple v-model="modal.params.device_names" clearable>
                                 <Option v-for="(item, index) in deviceList" :value="item.name" :key="index"
@@ -29,8 +31,13 @@
                         </FormItem>
                         </Col>
                         <Col span="18">
+                        <FormItem label="最大运行数">
+                            <Input v-model.number="modal.params.max_num" type="number"></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="18">
                         <FormItem label="客户端IP" prop="host_ip">
-                            <Input v-model="modal.params.host_ip"></Input>
+                            <Input v-model="modal.params.host_ip" :disabled="modal.title == '编辑主机信息'"></Input>
                         </FormItem>
                         </Col>
                         <Col span="18">
@@ -63,7 +70,8 @@ export default {
                     host_type: "",
                     device_names: [111, 222],
                     host_ip: "",
-                    desc: ""
+                    desc: "",
+                    max_num:null
                 },
                 rules: {
                     name: [
@@ -94,7 +102,8 @@ export default {
                 if (valid) {
                     let data = {
                         ...this.modal.params,
-                        host_type: Number(this.modal.params.host_type)
+                        host_type: Number(this.modal.params.host_type),
+                        max_num: Number(this.modal.params.max_num)
                     }
 
                     if (this.modal.params.id) {
