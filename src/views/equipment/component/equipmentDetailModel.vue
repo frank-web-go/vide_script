@@ -32,7 +32,7 @@
                         </FormItem>
                         <Col span="18" v-if="modal.params.device_type == 2">
                         <FormItem label="博主列表" prop="blogger_ids">
-                            <Input v-model="modal.params.blogger_ids"></Input>
+                            <Input type="textarea" :rows="5" v-model="modal.params.blogger_ids" placeholder="一行一个博主账号"></Input>
                         </FormItem>
                         </Col>
                         <!-- <Col span="18">
@@ -131,7 +131,7 @@ export default {
                         ...this.modal.params,
                         today_rem_num: this.modal.params.today_rem_num == "" ? 0 : Number(this.modal.params.today_rem_num),
                         device_type: Number(this.modal.params.device_type),
-                        blogger_ids: [this.modal.params.blogger_ids],
+                        blogger_ids: this.modal.params.blogger_ids.split("\n")
                     }
 
                     if (this.modal.params.id) {
