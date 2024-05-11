@@ -21,7 +21,7 @@ export const Mixin = {
             this.ids = row.map(item => item.id)
         },
         settime(time) {
-            return time == 0 ? time : this.$moment.unix(time / 100).format('YYYY-MM-DD')
+            return time == 0 ? time : this.$moment.unix(time / 100).format('YYYY-MM-DD HH:mm:ss')
           },
     },
     mounted() {

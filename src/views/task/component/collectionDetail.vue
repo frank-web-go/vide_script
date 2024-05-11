@@ -45,17 +45,18 @@ export default {
                 { title: "设备名称", key: 'device_name', align: 'center' },
                 { title: "博主", key: 'blogger_id', align: 'center' },
                 // { title: "消息内容", key: 'content', align: 'center' },
-                { title: "任务数量", key: 'task_num', align: 'center' },
+                // { title: "任务数量", key: 'task_num', align: 'center' },
                 { title: "完成数量", key: 'comp_num', align: 'center' },
                 // { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(params) } },
                 { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(h, params, "online") }},
                 { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
+                { title: "完成时间", key: 'finish_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.finish_time)) },
             ],
             table: {
                 total: 0,
                 loading:false,
                 params: {
-                    device_name: "",
+                    // device_name: "",
                     status: "",
                     page: 1,
                     limit: 10
@@ -131,7 +132,7 @@ export default {
         getList() {
             let data = {
                 ...this.table.params,
-                task_id:sessionStorage.getItem("collection_id"),
+                device_name:sessionStorage.getItem("collection_id"),
                 status: this.table.params.status === "" ? 0 : this.table.params.status
             }
             collectionDetail(data).then(res => {
@@ -141,7 +142,7 @@ export default {
             })
         },
         settime(time) {
-            return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD')
+            return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD HH:mm:ss')
         },
         limitchange(limit) {
             this.table.params.page = 1;

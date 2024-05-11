@@ -3,7 +3,7 @@ export default function (h, time,len) {
     let end = len==17?"":"..."
     let texts = '--'; //表格列显示文字
     if (time) {
-        texts = moment.unix(time).format('YYYY-MM-DD HH:mm').substring(0, len||7) + end
+        texts = moment.unix(time).format('YYYY-MM-DD HH:mm:ss').substring(0, len||7) + end
     } else {
         texts = '--'
     }
@@ -24,7 +24,7 @@ export default function (h, time,len) {
                     whiteSpace: 'normal'
                 }
             },
-            moment.unix(time).format('YYYY-MM-DD HH:mm')
+            moment.unix(time).format('YYYY-MM-DD HH:mm:ss')
             )])]);
 
 }

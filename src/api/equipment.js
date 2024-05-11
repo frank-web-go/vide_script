@@ -97,5 +97,8 @@ export function hostDetailPage(data) {
     return request({ url: "/devicehost/alldevice", data });
 }
 
+export function deviceListInfo(data) {
+    return request({ url: "/taskcollection/allavailabledevice", data });
+}
 
 

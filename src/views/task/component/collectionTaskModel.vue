@@ -8,17 +8,26 @@
             <div style="padding: 10px">
                 <Form :ref="modal.ref" :model="modal.params" :rules="modal.rules" :label-width="110">
                     <Row>
-                        <Col span="18">
+                        <!-- <Col span="18">
                         <FormItem label="任务名称" prop="name">
                             <Input v-model="modal.params.name"></Input>
                         </FormItem>
-                        </Col>
+                        </Col> -->
                         <Col span="18">
                         <!-- <FormItem label="设备列表" prop="device_names"> -->
                         <FormItem label="主机列表" prop="host_name">
-                            <Select placeholder="请选择主机列表" v-model="modal.params.host_name" @on-open-change="hostNameChange" clearable>
-                                <Option v-for="(item, index) in DeviceList" :value="item.name" :key="index"
+                            <Select placeholder="请选择主机列表" v-model="modal.params.host_name" @on-open-change="hostNameChange" @on-change="isHaveHostName" clearable>
+                                <Option v-for="(item, index) in hostList" :value="item.name" :key="index"
                                     :label="item.name">{{ item.name }}</Option>
+                            </Select>
+                        </FormItem>
+                        </Col>
+                        <Col span="18" v-if="deviceList.length>0">
+                        <!-- <FormItem label="设备列表" prop="device_names"> -->
+                        <FormItem label="设备列表">
+                            <Select placeholder="请选择设备" v-model="modal.params.device_names" multiple clearable>
+                                <Option v-for="(item, index) in deviceList" :value="item" :key="index"
+                                    :label="item">{{ item }}</Option>
                             </Select>
                         </FormItem>
                         </Col>
@@ -28,11 +37,11 @@
                         </FormItem>
                         </Col> -->
                       
-                        <Col span="18">
+                        <!-- <Col span="18">
                         <FormItem label="单台任务数量">
                             <Input v-model="modal.params.single_num" type="number"></Input>
                         </FormItem>
-                        </Col>
+                        </Col> -->
 
                         <!-- <Col span="18">
                        
@@ -59,7 +68,7 @@
     </div>
 </template>
 <script>
-import { collectionAdd, getAllDeviceHost } from "@/api/equipment";
+import { collectionAdd, getAllDeviceHost, deviceListInfo } from "@/api/equipment";
 export default {
     data() {
         return {
@@ -68,23 +77,24 @@ export default {
                 title: "",
                 ref: "equipment",
                 params: {
-                    name: "",
+                    // name: "",
                     // status: "",
                     host_name: "",
-                    single_num: null,
-                   
+                    device_names:[]
+                    // single_num: null,
                 },
                 rules: {
-                    name: [
-                        { required: true, message: "请输入任务名称", trigger: "blur" }
-                    ],
+                    // name: [
+                    //     { required: true, message: "请输入任务名称", trigger: "blur" }
+                    // ],
                     host_name: [
                         { required: true, message: "请输入主机列表", trigger: "blur" }
                     ]
                 },
-
+                
             },
-            DeviceList: []
+            deviceList:[],
+            hostList: []
         };
     },
     mounted() {
@@ -100,7 +110,7 @@ export default {
                     let data = {
                         ...this.modal.params,
                         // status: this.modal.params.status === "" ? 0 : this.modal.params.status,
-                        single_num: Number(this.modal.params.single_num),
+                        // single_num: Number(this.modal.params.single_num),
                     }
                     collectionAdd(data).then(res => {
 
@@ -123,10 +133,21 @@ export default {
         hostNameChange(){
            this.getAllDevice()
         },
+        isHaveHostName(val) {
+            console.log('val: ', val);
+            deviceListInfo({host_name:val}).then(res=>{
+                console.log('res: ', res);
+                if (res.code == 0) {
+                  this.deviceList = res.data.list.map(v=>v.name)
+                }
+            })
+        },
         getAllDevice() {
             getAllDeviceHost({ host_type: 2 }).then(res => {
+                console.log('res: ', res);
                 if (res.code == 0) {
-                    this.DeviceList = res.data || []
+                    this.hostList = res.data || []
+                    console.log('this.hostList : ', this.hostList );
                 }
             })
         }

@@ -222,7 +222,7 @@ export default {
       this.$refs.addAdver.getoldData(row)
     },
     settime(time) {
-      return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD HH:mm')
+      return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD HH:mm:ss')
     },
     limitchange(limit) {
       this.table.params.page = 1;

@@ -51,7 +51,7 @@
                     <Button @click="actionStatus(row.id, 2)" style="margin-left: 10px;" type="success"
                         v-if="row.status == 3">开启</Button>
                     <Button style="margin-left: 10px;visibility: hidden;" type="info" v-if="row.status == 4" >完成</Button>
-                    <Button style="margin-left: 10px;" type="info" @click="detail(row.id)">详情</Button>
+                    <Button style="margin-left: 10px;" type="info" @click="detail(row.device_name)">详情</Button>
                     <Button style="margin-left: 10px;" type="error" @click="deletesing(row.id)">删除</Button>
                 </template>
             </Table>
@@ -75,14 +75,14 @@ export default {
         return {
             columns: [
                 { type: 'selection', width: 60, align: 'center' },
-                { title: "任务名称", key: 'name', align: 'center' },
-                { title: "设备列表", key: 'device_names', align: 'center' },
-                { title: "任务数量", key: 'task_num', align: 'center' },
-                { title: "单台任务数量", key: 'single_num', align: 'center' },
+                { title: "主机名称", key: 'host_name', align: 'center' },
+                { title: "设备列表", key: 'device_name', align: 'center' },
+                // { title: "任务数量", key: 'task_num', align: 'center' },
+                // { title: "单台任务数量", key: 'single_num', align: 'center' },
                 { title: "完成数量", key: 'comp_num', align: 'center' },
                 { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(h, params, "online") } },
                 { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
-                { title: "完成时间", key: 'finish_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.finish_time)) },
+                // { title: "完成时间", key: 'finish_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.finish_time)) },
                 { title: "操作", key: "operate", align: "center", width: 250, slot: "action" },
             ],
             table: {
@@ -202,8 +202,8 @@ export default {
         //     this.$refs.taskModal.modal.params = data
         //     this.$refs.taskModal.modal.show = true
         // },
-        detail(id) {
-            sessionStorage.setItem("collection_id", id)
+        detail(name) {
+            sessionStorage.setItem("collection_id",name)
             this.$router.push("/collection/detail")
         },
         deletesing(id) {

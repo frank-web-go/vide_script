@@ -48,6 +48,7 @@ export default {
                 // { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(params) } },
                 { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(h, params, "online") }},
                 { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
+                { title: "更新时间", key: 'update_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.update_time)) },
             ],
             table: {
                 total: 0,
@@ -139,7 +140,7 @@ export default {
             })
         },
         settime(time) {
-            return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD')
+            return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD HH:mm:ss')
         },
         limitchange(limit) {
             this.table.params.page = 1;

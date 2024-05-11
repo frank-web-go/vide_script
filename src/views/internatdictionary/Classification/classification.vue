@@ -229,7 +229,7 @@ export default {
       this.$refs.classModal.getoldData(row, this.adverType)
     },
     settime(time) {
-      return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD HH:mm')
+      return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD HH:mm:ss')
     },
 
     limitchange(limit) {

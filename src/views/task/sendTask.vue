@@ -85,7 +85,7 @@ export default {
                 // { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(params) } },
                 { title: "状态", key: 'status', align: 'center', render: (h, params) => { return this.fmtstatus(h, params, "online") } },
                 { title: "创建时间", key: 'create_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.create_time)) },
-
+                { title: "更新时间", key: 'update_time', align: 'center', render: (h, params) => h('span', this.settime(params.row.update_time)) },
                 { title: "启用", key: 'enable', align: 'center', render: (h, params) => { return this.ispublic(h, params, "online") } },
                 { title: "操作", key: "operate", align: "center", width: 250, slot: "action" },
             ],
