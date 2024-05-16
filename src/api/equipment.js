@@ -70,7 +70,7 @@ export function collectionStatusChange(data) {
 }
 
 export function collectionDeleteMany(data) {
-    return request({ url: "/taskcollection/deletemany", data });
+    return request({ url: "/taskcollection/removedevices", data });
 }
 
 export function collectionDetail(data) {

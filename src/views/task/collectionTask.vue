@@ -36,23 +36,23 @@
                 </el-form>
                 <div>
                     <el-button size="small" type="primary" @click="add()">新增</el-button>
-                    <el-button size="small" type="danger" @click="deletesing(ids)">批量删除</el-button>
+                    <el-button size="small" type="danger" @click="deletesing(device_names)">批量删除</el-button>
                 </div>
             </div>
-            <Table border @on-selection-change="handSelectChange" :columns="columns" :data="table.data"
+            <Table border @on-selection-change="handSelectChange" :columns="columns" :data="table.data" 
                 style="margin-top: 12px;" height="600">
                 <template #action="{ row }">
 
                     <!-- <Button style="margin-left: 10px;" type="info" @click="update(row)">编辑</Button> -->
-                    <Button @click="actionStatus(row.id, 2)" style="margin-left: 10px;" type="warning"
+                    <!-- <Button @click="actionStatus(row.id, 2)" style="margin-left: 10px;" type="warning"
                         v-if="row.status == 1">审核</Button>
                     <Button @click="actionStatus(row.id, 3)" style="margin-left: 10px;" type="error"
                         v-if="row.status == 2">暂停</Button>
                     <Button @click="actionStatus(row.id, 2)" style="margin-left: 10px;" type="success"
-                        v-if="row.status == 3">开启</Button>
-                    <Button style="margin-left: 10px;visibility: hidden;" type="info" v-if="row.status == 4" >完成</Button>
+                        v-if="row.status == 3">开启</Button> -->
+                    <!-- <Button style="margin-left: 10px;visibility: hidden;" type="info" v-if="row.status == 4" >完成</Button> -->
                     <Button style="margin-left: 10px;" type="info" @click="detail(row.device_name)">详情</Button>
-                    <Button style="margin-left: 10px;" type="error" @click="deletesing(row.id)">删除</Button>
+                    <Button style="margin-left: 10px;" type="error" @click="deletesing(row.device_name)">删除</Button>
                 </template>
             </Table>
             <Page v-show="table.data.length" show-sizer show-total style="margin-top:10px;float:right;"
@@ -123,7 +123,7 @@ export default {
             })
         },
         handSelectChange(row) {
-            this.ids = row.map(item => item.id)
+            this.device_names = row.map(item => item.id)
         },
         ispublic(h, params, type) {
             console.log('params: ', params);
@@ -206,14 +206,14 @@ export default {
             sessionStorage.setItem("collection_id",name)
             this.$router.push("/collection/detail")
         },
-        deletesing(id) {
-            let ids = Array.isArray(id) ? id : [id]
-            if (ids.length == 0) return this.$message.warning("请选择要删除的设备信息")
+        deletesing(device_name) {
+            let device_names = Array.isArray(device_name) ? device_name : [device_name]
+            if (device_names.length == 0) return this.$message.warning("请选择要删除的设备信息")
             this.$Modal.confirm({
                 title: "确认删除",
                 content: "<p>是否确认删除此设备信息</p>",
                 onOk: () => {
-                    collectionDeleteMany({ ids }).then(res => {
+                    collectionDeleteMany({ device_names }).then(res => {
                         if (res.code == 0) {
                             this.$message.success("删除成功")
                             this.getList();
@@ -223,7 +223,7 @@ export default {
             });
         },
         handSelectChange(row) {
-            this.ids = row.map(item => item.id)
+            this.device_names = row.map(item => item.device_name)
         },
         settime(time) {
             return time == 0 ? time : this.$moment.unix(time).format('YYYY-MM-DD HH:mm:ss')
