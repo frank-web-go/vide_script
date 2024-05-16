@@ -47,7 +47,7 @@
                 </div>
             </div>
             <Table border @on-selection-change="handSelectChange" :columns="columns" :data="table.data"
-                style="margin-top: 12px;" height="600">
+                style="margin-top: 12px;" height="520">
                 <template #action="{ row }">
 
                     <Button style="margin-left: 10px;" type="info" @click="update(row)">编辑</Button>
